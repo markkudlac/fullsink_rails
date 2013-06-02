@@ -1,0 +1,57 @@
+<%= form_for(@resolver) do |f| %>
+  <% if @resolver.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@resolver.errors.count, "error") %> prohibited this resolver from being saved:</h2>
+
+      <ul>
+      <% @resolver.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :device %><br />
+    <%= f.text_field :device %>
+  </div>
+  <div class="field">
+    <%= f.label :devtype %><br />
+    <%= f.text_field :devtype %>
+  </div>
+  <div class="field">
+    <%= f.label :userhandle %><br />
+    <%= f.text_field :userhandle %>
+  </div>
+  <div class="field">
+    <%= f.label :ipadd %><br />
+    <%= f.text_field :ipadd %>
+  </div>
+  <div class="field">
+    <%= f.label :portsock %><br />
+    <%= f.number_field :portsock %>
+  </div>
+  <div class="field">
+    <%= f.label :porthttpd %><br />
+    <%= f.number_field :porthttpd %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.number_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.number_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :userimage %><br />
+    <%= f.text_area :userimage %>
+  </div>
+  <div class="field">
+    <%= f.label :imagehash %><br />
+    <%= f.text_field :imagehash %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

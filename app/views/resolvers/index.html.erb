@@ -1,0 +1,45 @@
+<h1>Listing resolvers</h1>
+
+<div id="user_nav">
+		<%= link_to "Client", client_index_path %>
+</div>
+
+<table>
+  <tr>
+    <th>Device</th>
+    <th>Devtype</th>
+    <th>Userhandle</th>
+    <th>Ipadd</th>
+    <th>Portsock</th>
+    <th>Porthttpd</th>
+    <th>Longitude</th>
+    <th>Latitude</th>
+    <th>Userimage</th>
+    <th>Imagehash</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @resolvers.each do |resolver| %>
+  <tr>
+    <td><%= resolver.device %></td>
+    <td><%= resolver.devtype %></td>
+    <td><%= resolver.userhandle %></td>
+    <td><%= resolver.ipadd %></td>
+    <td><%= resolver.portsock %></td>
+    <td><%= resolver.porthttpd %></td>
+    <td><%= resolver.longitude %></td>
+    <td><%= resolver.latitude %></td>
+    <td><%= resolver.userimage %></td>
+    <td><%= resolver.imagehash %></td>
+    <td><%= link_to 'Show', resolver %></td>
+    <td><%= link_to 'Edit', edit_resolver_path(resolver) %></td>
+    <td><%= link_to 'Destroy', resolver, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Resolver', new_resolver_path %>

@@ -1,0 +1,14 @@
+.bundle
+db/*.sqlite3*
+log/*.log
+tmp/**/*
+tmp/*
+hold/
+public/game/**/*
+public/game/*
+doc/api
+doc/app
+*.swp
+*~
+.DS_Store
+.sass-cache/
