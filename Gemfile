@@ -29,6 +29,7 @@ end
 
 gem 'jquery-rails'
 gem 'devise'
+gem 'exception_notification', "2.6.1"
 
 # To use debugger
 # gem 'debugger'
