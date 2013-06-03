@@ -66,11 +66,11 @@ Fullsink::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
   #Set for Devise. Set localhost to domain for production
-   config.action_mailer.default_url_options = { :host => 'app8896500.mailgun.org' }
+   config.action_mailer.default_url_options = { :host => 'app16068401.mailgun.org' }
    
    # Set for exception notification email this is also in development env
    config.middleware.use ExceptionNotifier,
      email_prefix: 'Exception ERROR: ',
-     sender_address: 'noreply@app8896500.mailgun.org',
+     sender_address: 'noreply@app16068401.mailgun.org',
      exception_recipients: 'mark.kudlac@fullsink.com'
 end

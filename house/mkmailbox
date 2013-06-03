@@ -1,0 +1,4 @@
+curl -s --user api:key-4oeuhw5rm1ns5yj7gbypwfv-od-rno04 \
+    https://api.mailgun.net/v2/app16068401.mailgun.org/mailboxes \
+    -F mailbox='noreply@app16068401.mailgun.org' \
+    -F password='rosemary35'

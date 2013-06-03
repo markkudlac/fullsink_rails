@@ -8,5 +8,10 @@
 
 <iframe id="player" autofocus="true" ></iframe>
 
+<% if Rails.env.production? %>
+<% 	url =  "http://www.fullsink.com" %>
+<% else %>
+<% url = "http://192.168.1.104:3000" %>
+<% end %>
 <%= javascript_tag(render :template => "layouts/client", :formats => [:js],
-	:locals => {:test => "hello"}) %>
+	:locals => {:url => url}) %>

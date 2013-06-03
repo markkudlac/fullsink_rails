@@ -1,6 +1,6 @@
 
 
-var url = "http://192.168.1.104:3000"
+//var url = "http://192.168.1.104:3000"
 
 $(document).ready(function(){
 	
@@ -46,7 +46,9 @@ function initAjax() {
 
 function serverLookup(lng, lat) {
 	
-	$.get(url+"/api/search",{lng: lng, lat: lat},function(data){
+	alert("Lookup at address : "+'<%= url %>')
+	
+	$.get('<%= url %>'+"/api/search",{lng: lng, lat: lat},function(data){
 		
 		for (i=0; i < data.length; i++) {
 			console.log("Got : " + data[i].userhandle)
