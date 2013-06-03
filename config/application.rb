@@ -58,5 +58,25 @@ module Fullsink
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-  end
+      # For Devise -If you are deploying Rails 3.1 on Heroku, you may want to set:
+      # forcing your application to not access the DB or load models when precompiling your assets.
+      config.assets.initialize_on_precompile = false
+
+      ActionMailer::Base.smtp_settings = {
+        :port           => ENV['MAILGUN_SMTP_PORT'], 
+        :address        => ENV['MAILGUN_SMTP_SERVER'],
+        :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
+        :password       => ENV['MAILGUN_SMTP_PASSWORD'],     
+        :domain         => 'guarded-sands-4601.heroku.com',
+        :authentication => :plain,
+      }
+      ActionMailer::Base.delivery_method = :smtp
+
+      # Added for spork
+          if Rails.env.test?
+            initializer :after => :initialize_dependency_mechanism do
+              ActiveSupport::Dependencies.mechanism = :load
+            end
+          end
+    end
 end

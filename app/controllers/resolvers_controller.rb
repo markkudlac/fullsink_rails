@@ -1,4 +1,8 @@
 class ResolversController < ApplicationController
+  
+  before_filter :authenticate_admin!, :except => [:addup, :search]
+  
+  
   # GET /resolvers
   # GET /resolvers.json
   def index

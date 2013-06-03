@@ -1,4 +1,6 @@
 Fullsink::Application.routes.draw do
+  devise_for :admins
+
   get "client/index"
 
   resources :resolvers
@@ -12,6 +14,7 @@ root :to => "client#index"
 put "/api/:device/:devtype" => "resolvers#upadd"
 get "api/search" => "resolvers#search"
 
+match "/admin", to: "resolvers#index"
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

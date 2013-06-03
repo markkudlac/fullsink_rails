@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fullsink</title>
+  <title>FullSink</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -10,7 +10,14 @@
 
 	<h1>FullSink Audio System</h1>
 	<span id="contact"">Contact: <a href="mailto:mark.kudlac@fullsink.com"">mark.kudlac@fullsink.com</a></span>
-	
+	<% if admin_signed_in? then %>
+		<%= content_tag :li, link_to("Server Management", resolvers_path,	:id=>"mn_admin") %>
+			<%= content_tag :li, link_to("Home", client_index_path,	:id=>"mn_admin") %>
+			<%= content_tag :li, link_to("Sign Out", destroy_admin_session_path,
+				method: :delete,	:id=>"mn_signout") %>
+	<% end%>
+	</br>
+				
 	<%= yield %>
 
 	<p class="notice"><%= notice %></p>

@@ -15,7 +15,7 @@ Fullsink::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true    # This was false by default, set for Heroku
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -64,4 +64,13 @@ Fullsink::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  
+  #Set for Devise. Set localhost to domain for production
+   config.action_mailer.default_url_options = { :host => 'app8896500.mailgun.org' }
+   
+   # Set for exception notification email this is also in development env
+   config.middleware.use ExceptionNotifier,
+     email_prefix: 'Exception ERROR: ',
+     sender_address: 'noreply@app8896500.mailgun.org',
+     exception_recipients: 'mark.kudlac@fullsink.com'
 end

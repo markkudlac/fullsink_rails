@@ -34,4 +34,10 @@ Fullsink::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  #Set for Devise. Set localhost to domain for production
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  
+  # This will open email in browser
+  config.action_mailer.delivery_method = :letter_opener
 end
