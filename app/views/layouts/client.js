@@ -1,7 +1,5 @@
 
 
-//var url = "http://192.168.1.104:3000"
-
 $(document).ready(function(){
 	
 	var lng = 0;
@@ -46,7 +44,7 @@ function initAjax() {
 
 function serverLookup(lng, lat) {
 	
-	alert("Lookup at address : "+'<%= url %>')
+//	alert("Lookup at address : "+'<%= url %>')
 	
 	$.get('<%= url %>'+"/api/search",{lng: lng, lat: lat},function(data){
 		
@@ -71,6 +69,6 @@ function callserver(evt) {
 	evt.preventDefault()
 	
 	val = "http://" + $(this).data("addr")
-	alert("Got click : " + val)
+//	alert("Got click : " + val)
 	$("#player").attr("src", val)
 }

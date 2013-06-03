@@ -1,6 +1,6 @@
 class ResolversController < ApplicationController
   
-  before_filter :authenticate_admin!, :except => [:addup, :search]
+  before_filter :authenticate_admin!, :except => [:upadd, :search]
   
   
   # GET /resolvers
@@ -85,8 +85,8 @@ class ResolversController < ApplicationController
     end
   end
   
+  
   def upadd
-    
     updateimg = false
     
     rec = Resolver.find_or_initialize_by_device_and_devtype(params[:device],params[:devtype])
@@ -109,6 +109,7 @@ class ResolversController < ApplicationController
   
   def search
     rec = Resolver.get_servers(params[:lng], params[:lat])
+ #   puts "Found : #{rec[0]}"
     render :json => rec
   end
 end
