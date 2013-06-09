@@ -1,12 +1,44 @@
-<h1>Client</h1>
 
+<!-- Display the servers -->
 
-<div style="margin: 20px">
-	<ul id="pick">
-	</ul>
+<div id="table-wrapper">
+  <div id="table-scroll">
+    <table>
+        <thead>
+            <tr> Select a Station</tr>
+        </thead>
+        <tbody id="pick">
+        </tbody>
+    </table>
+  </div>
 </div>
 
-<iframe id="player" autofocus="true" ></iframe>
+<div style="margin-bottom:20px">
+<input id="userhandle" type="text" maxlength="18" size="18"></input>
+<button id="refresh">Refresh</input>
+</div>
+
+<div style="margin-bottom:20px">
+
+<button id="closesockets">Close Sockets</input>
+</div>
+
+<div>
+	<div id="songdisp" style="margin:20px">
+	</div>
+	
+	<button id="copybut" style="margin:10px">Download</button>
+</div>
+
+<div style="margin:30px">
+	<audio id="media" src="" preload="auto" controls >
+	<p>Your browser does not support the audio element.</p>
+	</audio>
+</div>
+
+<!--
+<iframe id="player" ></iframe>
+-->
 
 <% if Rails.env.production? %>
 <% 	url =  "http://www.fullsink.com" %>

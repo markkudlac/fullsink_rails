@@ -1,16 +1,14 @@
 class CreateResolvers < ActiveRecord::Migration
   def change
     create_table :resolvers do |t|
-      t.string :device,          :limit => 40, :null => false
+      t.string :device,          :limit => 20, :null => false
       t.string :devtype,         :limit => 1, :null => false 
-      t.string :userhandle,      :limit => 15
-      t.string :ipadd
-      t.integer :portsock
-      t.integer :porthttpd
-      t.integer :longitude
-      t.integer :latitude
-      t.text :userimage,         :limit => 12000
-      t.string :imagehash,       :limit => 50
+      t.string :userhandle,      :limit => 20
+      t.string :ipadd,           :limit => 15, :default => "OFF", :null => false
+      t.integer :portsock,       :default => 0
+      t.integer :porthttpd,      :default => 0
+      t.integer :longitude,      :default => 1810000000
+      t.integer :latitude,       :default => 1810000000
 
       t.timestamps
     end

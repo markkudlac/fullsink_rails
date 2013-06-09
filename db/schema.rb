@@ -32,18 +32,16 @@ ActiveRecord::Schema.define(:version => 20130602202735) do
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
 
   create_table "resolvers", :force => true do |t|
-    t.string   "device",     :limit => 40, :null => false
-    t.string   "devtype",    :limit => 1,  :null => false
-    t.string   "userhandle", :limit => 15
-    t.string   "ipadd"
-    t.integer  "portsock"
-    t.integer  "porthttpd"
-    t.integer  "longitude"
-    t.integer  "latitude"
-    t.text     "userimage"
-    t.string   "imagehash",  :limit => 50
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.string   "device",     :limit => 40,                         :null => false
+    t.string   "devtype",    :limit => 1,                          :null => false
+    t.string   "userhandle", :limit => 20
+    t.string   "ipadd",      :limit => 15, :default => "OFF",      :null => false
+    t.integer  "portsock",                 :default => 0
+    t.integer  "porthttpd",                :default => 0
+    t.integer  "longitude",                :default => 1810000000
+    t.integer  "latitude",                 :default => 1810000000
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
   add_index "resolvers", ["device", "devtype"], :name => "index_resolvers_on_device_and_devtype", :unique => true

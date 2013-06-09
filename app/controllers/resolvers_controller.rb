@@ -87,7 +87,7 @@ class ResolversController < ApplicationController
   
   
   def upadd
-    updateimg = false
+    updated = false
     
     rec = Resolver.find_or_initialize_by_device_and_devtype(params[:device],params[:devtype])
     
@@ -95,20 +95,15 @@ class ResolversController < ApplicationController
     xparam.delete :action
     xparam.delete :controller
     
-    if rec[:imagehash] != params[:imagehash] 
-      puts "Update image hash is diferent"
-      updateimg = true
+    if rec.update_attributes(xparam)  
+      updated = true
     end
     
-    if !rec.update_attributes(xparam)  
-      puts("update failed") 
-    end
-    
-    render :json => { :photo => updateimg }
+    render :json => { :rtn => updated }
   end
   
   def search
-    rec = Resolver.get_servers(params[:lng], params[:lat])
+    rec = Resolver.get_servers(params[:lng], params[:lat], params[:userhandle])
  #   puts "Found : #{rec[0]}"
     render :json => rec
   end
