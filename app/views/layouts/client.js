@@ -9,6 +9,13 @@ var handlealert = true;
 
 var currentTrack = null;
 var currentSocket = -1;
+var $media = null;
+var dommedia = null;
+
+var IGNORE_CANPLAY = -2;
+var PLAY_CANPLAY = -1;
+var canplaycmd = IGNORE_CANPLAY;  //-2 Nothing, -1 play, otherwise seek to number >= 0
+var canplayplay = true;  // If we should play after seek true else just seek
 /*
 TODO
 
@@ -24,11 +31,14 @@ $(document).ready(function(){
 	
 	initAjax()
 
+ 	$media = $("#media");
+	dommedia = $media.get(0);
 	$("#copybut").click(beginDownload);
 	$("#refresh").click(refreshLookup)
 	$("#closesockets").click(closeSockets)
 	$("#userhandle").focus(clearPoll)
-	$("#media").bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
+	$media.bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
+	
 	lng = nullloc;
 	lat = nullloc;
 	
@@ -182,10 +192,6 @@ function removeServer(jqobj) {
 
 
 function callServer() {
-/*
-	val = "http://" + $(this).data("addr")
-	$("#player").attr("src", val)
-	*/
 	currentSocket = parseInt($(this).data("conManpos"))
 	signalServer();
 }
@@ -241,7 +247,7 @@ function clearPlayingTrack() {
 	
 	currentSocket = -1;
 	currentTrack = null;
-	$('#media').attr("src", "")
+	$media.attr("src", "")
 	$("#songdisp").text("")
 	$('#copybut').data("ziplink","")
 }
@@ -314,7 +320,7 @@ function onClose(evt) {
 	conManClear(evt.srcElement.URL)
 } 
 
-var canplayflg = false;
+
 
 function onMessage(evt) { 
 	
@@ -330,33 +336,47 @@ function onMessage(evt) {
 			var fullurl;
 
 			currentTrack = getComArg(evt)
-			/*
-			fullurl = "http://"+parseUri(window.location).host+":" +
-						parseUri(window.location).port+"/" + currentTrack
-*/
 			if (currentSocketRange()) {
 				fullurl = "http://" + conMan[currentSocket].wsdata.ipadd + ":" + 
 						conMan[currentSocket].wsdata.porthttpd + "/" + currentTrack;
 			
 	console.log("In prep calling url for player")
 
-				$('#media').attr("src", fullurl)
+				$media.attr("src", fullurl)
+				dommedia.load();	//This is not needed in all browsers but good for now
 				$("#songdisp").text("Now Playing : " + currentTrack)
 				$('#copybut').data("ziplink", fullurl + ".zip")			
 				doSend("READY")
 			}
 		} else if (iscommand(evt,"PAUSE")){
-				$("#media").get(0).pause()
+				dommedia.pause()
 		}	else if (iscommand(evt,"RESUME:")){
-			$("#media").get(0).currentTime = (parseInt(getComArg(evt)) + 500) / 1000
-			$("#media").get(0).play()
+			dommedia.currentTime = calcSeek(getComArg(evt))
+			dommedia.play()
 		}	else if (iscommand(evt,"SEEK:")){
-//				$("#media").get(0).currentTime = (parseInt(getComArg(evt)) + 500) / 1000
+			canplayplay = false;
+			try {
+				var seekto = calcSeek(getComArg(evt))
+				
+				canplaycmd = seekto
+				dommedia.currentTime = seekto
+				canplaycmd = IGNORE_CANPLAY
+			} 	catch(err) {
+					console.log("Got Seek error : " + err + "  canplaycmd : " + canplaycmd)
+				}
 		}	else if (iscommand(evt,"PLAY:")){
-			/*
-			$("#media").get(0).currentTime = (parseInt(getComArg(evt)) + 500) / 1000
-			$("#media").get(0).play()
-			*/
+			try {
+				var seekto = calcSeek(getComArg(evt))
+				
+				canplayplay = true;
+				canplaycmd = seekto
+				dommedia.currentTime = seekto
+				dommedia.play()
+				console.log("In Play try block");
+				canplaycmd = IGNORE_CANPLAY
+			} catch(err) {
+				console.log("Got Play error : " + err)
+			}
 		} else if (iscommand(evt,"ZIPREADY")){
 			console.log("zip link is : "+ $('#copybut').data("ziplink"))
 
@@ -365,15 +385,31 @@ function onMessage(evt) {
 		}
 }
 
-function startPlay(){
-	$("#media").get(0).currentTime = (parseInt(getComArg(evt)) + 500) / 1000
-	$("#media").get(0).play()
+
+function calcSeek(seektime) {
+	return(parseInt((parseInt(seektime) + 500) / 1000));
 }
 
+
+function startPlay(seektime){
+	dommedia.currentTime = calcSeek(seektime)
+	dommedia.play()
+}
+
+
 function mediaCanPlay(evt){
-	canplayflg = true;
-	$("#media").get(0).play()
-	console.log("Got media canplay");
+
+	if (canplaycmd == IGNORE_CANPLAY) {
+		return
+	} else {
+		console.log("In mediaCanPlay  canplaycmd : " + canplaycmd);
+		dommedia.currentTime = canplaycmd
+		
+		if (canplayplay) {
+				dommedia.play()
+		}
+	}
+	canplaycmd = IGNORE_CANPLAY;
 }
 
 function mediaPlay(evt){
