@@ -6,16 +6,9 @@ var nullloc = 1810000000;
 var lng;
 var lat;
 var handlealert = true;
-
-var currentTrack = null;
 var currentSocket = -1;
-var $media = null;
-var dommedia = null;
 
-var IGNORE_CANPLAY = -2;
-var PLAY_CANPLAY = -1;
-var canplaycmd = IGNORE_CANPLAY;  //-2 Nothing, -1 play, otherwise seek to number >= 0
-var canplayplay = true;  // If we should play after seek true else just seek
+
 /*
 TODO
 
@@ -27,13 +20,12 @@ need to put a status polling handle alert message box
 	
 $(document).ready(function(){
 	
-	console.log("Document ready")
-	
 	initAjax()
 
  	$media = $("#media");
 	dommedia = $media.get(0);
-	$("#copybut").click(beginDownload);
+	$("#copybut").click(beginDownload)
+	$("#playbut").click(playAudio)
 	$("#refresh").click(refreshLookup)
 	$("#closesockets").click(closeSockets)
 	$("#userhandle").focus(clearPoll)
@@ -167,18 +159,6 @@ function appendServer(wsdata,pos){
 }
 
 
-function loadImage(wsdata, item) {
-	
-	var fullurl = 'http://'+wsdata.ipadd + ":"+ wsdata.porthttpd +
-		"/FlSkHtml/serverid.json"
-		console.log("Send get for serverid : "+fullurl);
-		
-	$.getJSON(fullurl,null,function(data){
-			console.log("Back with serverid status data : " + data)
-		})
-}
-
-
 function removeServer(jqobj) {
 	
 	if (jqobj != null) {
@@ -243,13 +223,14 @@ function conManClear(wsaddr){
 }
 
 
-function clearPlayingTrack() {
+function currentSocketRange() {
 	
-	currentSocket = -1;
-	currentTrack = null;
-	$media.attr("src", "")
-	$("#songdisp").text("")
-	$('#copybut').data("ziplink","")
+	if (currentSocket >= 0 && currentSocket < conMan.length && conMan[currentSocket] != null) {
+		return true;
+		} else {
+			console.log("currentSocket out of range")
+			return false;
+	}
 }
 
 
@@ -301,179 +282,21 @@ function pingWebSocket(wsdata) {
 }  
 
 
-function signalServer() {
+function streamURL(track) {
 	
-	doSend("CONNECT:Browser")
-	doSend("INIT")
+	return("http://" + conMan[currentSocket].wsdata.ipadd + ":" + 
+			conMan[currentSocket].wsdata.porthttpd + "/" + track);
 }
 
 
-function onOpen(evt) {
-
-  console.log("onOpen : CONNECTED :");
-	conManLoad(evt.srcElement.URL)
-}  
-
-
-function onClose(evt) { 
-	console.log("DISCONNECTED : " + evt.code); 
-	conManClear(evt.srcElement.URL)
-} 
-
-
-
-function onMessage(evt) { 
+function messageNotMine(evt) {
 	
-	// Check to see that messages are for the current live stream only. Drop rest
-	if (! currentSocketRange() || evt.srcElement.URL.indexOf(conMan[currentSocket].wsdata.ipadd) != 5) {
-		console.log("message not for : " + conMan[currentSocket].wsdata.ipadd +"  from : "+evt.srcElement.URL)
-		return
-	}
+	return(! currentSocketRange() || evt.srcElement.URL.indexOf(conMan[currentSocket].wsdata.ipadd) != 5);
+}
+
+
+
+function getWebSocket(){
 	
-	console.log('onMessage : ' + evt.data);
-
-		if (iscommand(evt,"PREP:")) {
-			var fullurl;
-
-			currentTrack = getComArg(evt)
-			if (currentSocketRange()) {
-				fullurl = "http://" + conMan[currentSocket].wsdata.ipadd + ":" + 
-						conMan[currentSocket].wsdata.porthttpd + "/" + currentTrack;
-			
-	console.log("In prep calling url for player")
-
-				$media.attr("src", fullurl)
-				dommedia.load();	//This is not needed in all browsers but good for now
-				$("#songdisp").text("Now Playing : " + currentTrack)
-				$('#copybut').data("ziplink", fullurl + ".zip")			
-				doSend("READY")
-			}
-		} else if (iscommand(evt,"PAUSE")){
-				dommedia.pause()
-		}	else if (iscommand(evt,"RESUME:")){
-			dommedia.currentTime = calcSeek(getComArg(evt))
-			dommedia.play()
-		}	else if (iscommand(evt,"SEEK:")){
-			canplayplay = false;
-			try {
-				var seekto = calcSeek(getComArg(evt))
-				
-				canplaycmd = seekto
-				dommedia.currentTime = seekto
-				canplaycmd = IGNORE_CANPLAY
-			} 	catch(err) {
-					console.log("Got Seek error : " + err + "  canplaycmd : " + canplaycmd)
-				}
-		}	else if (iscommand(evt,"PLAY:")){
-			try {
-				var seekto = calcSeek(getComArg(evt))
-				
-				canplayplay = true;
-				canplaycmd = seekto
-				dommedia.currentTime = seekto
-				dommedia.play()
-				console.log("In Play try block");
-				canplaycmd = IGNORE_CANPLAY
-			} catch(err) {
-				console.log("Got Play error : " + err)
-			}
-		} else if (iscommand(evt,"ZIPREADY")){
-			console.log("zip link is : "+ $('#copybut').data("ziplink"))
-
-			window.location.href = $('#copybut').data("ziplink")
-			setTimeout(setBeforeUnload, 8000)	//Seems to need time after location call else thinks leaving
-		}
+	return(conMan[currentSocket].websocket);
 }
-
-
-function calcSeek(seektime) {
-	return(parseInt((parseInt(seektime) + 500) / 1000));
-}
-
-
-function startPlay(seektime){
-	dommedia.currentTime = calcSeek(seektime)
-	dommedia.play()
-}
-
-
-function mediaCanPlay(evt){
-
-	if (canplaycmd == IGNORE_CANPLAY) {
-		return
-	} else {
-		console.log("In mediaCanPlay  canplaycmd : " + canplaycmd);
-		dommedia.currentTime = canplaycmd
-		
-		if (canplayplay) {
-				dommedia.play()
-		}
-	}
-	canplaycmd = IGNORE_CANPLAY;
-}
-
-function mediaPlay(evt){
-	console.log("Got media play");
-	}
-	
-	
-function mediaPause(evt){
-	console.log("Got media pause");
-}
-
-
-function onError(evt) { 
-	alert('ERROR:  ' + evt.message); 
-}
-
-
-function doSend(message) {
-	console.log("SENT to server : " + message + "  conMan index : "+ currentSocket);
-
-	if (currentSocketRange()) {
-		conMan[currentSocket].websocket.send(message); 
-	} 
-}
-
-
-function setBeforeUnload() {
-	$(window).bind('beforeunload',closeSockets)
-}
-
-
-function clearBeforeUnload() {
-	$(window).unbind('beforeunload',closeSockets)
-}
-
-
-
-function currentSocketRange() {
-	
-	if (currentSocket >= 0 && currentSocket < conMan.length && conMan[currentSocket] != null) {
-		return true;
-		} else {
-			console.log("currentSocket out of range")
-			return false;
-	}
-}
-
-
-function beginDownload(){
-
-	clearBeforeUnload()
-	doSend("ZIPPREP:"+currentTrack)
-}
-
-
-function iscommand(evt,com) {
-
-	return(evt.data.indexOf(com) == 0)
-}
-
-
-function getComArg(evt) {
-
-	return(evt.data.split(":",2)[1])
-}
-
-

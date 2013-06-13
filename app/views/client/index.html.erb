@@ -1,6 +1,6 @@
 
 <!-- Display the servers -->
-
+<div style="font-size:200%">
 <div id="table-wrapper">
   <div id="table-scroll">
     <table>
@@ -14,36 +14,46 @@
 </div>
 
 <div style="margin-bottom:20px">
-<input id="userhandle" type="text" maxlength="18" size="18"></input>
-<button id="refresh">Refresh</input>
+<input id="userhandle" type="text" maxlength="18" size="18" style="font-size:200%"></input>
+<button id="refresh" style="font-size:200%">Refresh</input>
 </div>
 
 <div style="margin-bottom:20px">
 
+<!--
 <button id="closesockets">Close Sockets</input>
 </div>
+-->
 
 <div>
 	<div id="songdisp" style="margin:20px">
 	</div>
-	
-	<button id="copybut" style="margin:10px">Download</button>
 </div>
 
 <div style="margin:30px">
-	<audio id="media" src="" preload="auto" controls >
+	<audio id="media" src="" style="width:400px" preload="auto" controls >
 	<p>Your browser does not support the audio element.</p>
 	</audio>
 </div>
 
-<!--
-<iframe id="player" ></iframe>
--->
+<div>
+		<button id="playbut" style="margin-top:30px; font-size:200%">PLAY AUDIO</button>
+</div>
+<div style="margin-top:80px">
+		<button id="copybut" style="margin-top:10px; font-size:200%">Download</button>
+</div>
 
+</div>
 <% if Rails.env.production? %>
 <% 	url =  "http://www.fullsink.com" %>
 <% else %>
 <% url = "http://192.168.1.104:3000" %>
 <% end %>
+
+<!-- common.js should be loaded first -->
+<%= javascript_tag(render :template => "layouts/common", :formats => [:js]) %>
 <%= javascript_tag(render :template => "layouts/client", :formats => [:js],
 	:locals => {:url => url}) %>
+
+		
+		
