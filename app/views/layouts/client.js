@@ -27,8 +27,8 @@ $(document).ready(function(){
 	$("#copybut").click(beginDownload)
 	$("#playbut").click(playAudio)
 	$("#refresh").click(refreshLookup)
-	$("#closesockets").click(closeSockets)
-	$("#userhandle").focus(clearPoll)
+
+	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
 	$media.bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
 	
 	lng = nullloc;
@@ -79,7 +79,7 @@ function initLocation() {
 			serverLookup(lng, lat, $("#userhandle").val());
 	}
 	
-	timeid = setInterval(pollLookup, 9000)
+	timeid = setInterval(pollLookup, 5000)
 }
 
 
@@ -113,11 +113,21 @@ function serverLookup(xlng, xlat, userhandle) {
 	
 	++pollcount;
 		console.log("In managePoll count : " + pollcount)
-	if (pollcount >= 20) {
+	if (pollcount >= 2) {
 		clearPoll()
 	}
 }
 
+
+function scanrtn(evt) {
+	
+	var code = (evt.keyCode ? evt.keyCode : evt.which);
+	
+	if(code == 13) { //Enter keycode
+		alert("Got rtn")
+		refreshLookup()
+	}
+}
 
 function refreshLookup() {
 
@@ -141,19 +151,29 @@ function clearPoll() {
 
 
 function appendServer(wsdata,pos){
-	
+/*	
 	item = $('<tr><td><img class="userimage"/></td><td><a href=\"#\">' + wsdata.userhandle + 
 	"</a></td><td><input type='radio' name='playing' /></td></tr>")
+*/	
+	console.log("calling append server");
 	
+	item = $('<li data-theme="c" data-icon="false"><a href="#"><div class="ui-grid-b">'+
+	'<div class="ui-block-a" style="width:20%;"><img class="userimage" /></div>'+
+	'<div class="ui-block-b" style="width:75%;"><div>' + wsdata.userhandle + 
+	'</div><div class="songtitle">Tile</div><div class="albumartist">Album, artist</div></div><div class="ui-block-c" style="width:5%;">'+
+	'<h2></h2><input type="radio" name="playing" /></div></div></a></li>')
 	item.find('img').attr('src',"http://"+wsdata.ipadd+":"+wsdata.porthttpd+"/FlSkHtml/serverphoto.jpg")
 	
-	aitem = item.find('input')
+	aitem = item.find('a')
 	aitem.data('conManpos',pos).click(callServer)
-	item.find('a').click(clickRadio)
+	aitem.find('input[type=radio]').click(clickRadio)
 	$("#pick").append(item)
-	if ($("#pick").children('tr').length == 1 ) {  // first item added starts playing imediately
+	$("#pick").listview('refresh');
+	
+	if ($("#pick").children('li').length == 1 ) {  // first item added starts playing imediately
 		item.find('a').click()
 		setBeforeUnload()
+		
 	}
 	return item;
 }
@@ -165,21 +185,27 @@ function removeServer(jqobj) {
 		jqobj.remove()
 	}
 	
-	if ($("#pick").children('tr').length == 0 ) {  // table empty
+	if ($("#pick").children('li').length == 0 ) {  // table empty
 		clearBeforeUnload()
 	}
 }
 
 
-function callServer() {
+function callServer(ev) {
+	ev.preventDefault();
+	ev.stopPropagation();
+	
+	$(this).find('input[type=radio]').click()
 	currentSocket = parseInt($(this).data("conManpos"))
 	signalServer();
 }
 
 
-function clickRadio() {
 
-		$(this).parent().next().find('input').attr('checked',true).click()
+function clickRadio(ev) {
+
+	ev.stopPropagation();
+	//This is here to eat the event. Do not remove
 }
 
 

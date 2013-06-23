@@ -3,10 +3,25 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .userimage {
-	height: 30px;
-	width: 30px;
+	height: 50px;
+	width: 50px;
 }
 
+input[type=radio] {
+	height:15px;
+	width:15px
+}
+
+
+.songtitle {
+	color:#666;
+	font-size:80%;
+}
+
+.albumartist {
+	color:#666;
+	font-size:75%;
+}
 
 #table-wrapper {
   position:relative;
