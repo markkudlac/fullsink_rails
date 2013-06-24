@@ -3,7 +3,7 @@ class Resolver < ActiveRecord::Base
    :longitude, :porthttpd, :portsock, :userhandle
 
 #this will need to be adjusted later
-RANGE = 100000
+RANGE = 500000
 
   def self.get_servers(lng, lat, userhandle)
   

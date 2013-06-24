@@ -2,9 +2,13 @@
 var currentTrack = null;
 var $media = null;
 var dommedia = null;
+var downloadstate = true;
+var onRemote = false;
 
 var IGNORE_CANPLAY = -2;
 var PLAY_CANPLAY = -1;
+var SELECT_TARGET = 'input[type=radio]';
+
 var canplaycmd = IGNORE_CANPLAY;  //-2 Nothing, -1 play, otherwise seek to number >= 0
 var canplayplay = true;  // If we should play after seek true else just seek
 
@@ -18,7 +22,6 @@ function clearPlayingTrack() {
 	currentSocket = -1;
 	currentTrack = null;
 	$media.attr("src", "")
-	$("#songdisp").text("")
 	$('#copybut').data("ziplink","")
 }
 
@@ -47,6 +50,19 @@ function onClose(evt) {
 
 function onMessage(evt) { 
 	
+	// The playing command updates all connected servers
+	if (iscommand(evt,"PLAYING:")){
+		updatePlaying(evt)
+		return
+	}	else if (iscommand(evt,"REMOTE:")){
+		console.log("GOT REMOTE")
+			if (getComArg(evt) == "S") {
+				if (onRemote) {
+					setRemoteRequest(evt);
+				}
+			}
+	}
+	
 	// Check to see that messages are for the current live stream only. Drop rest
 	if (messageNotMine(evt)) {
 //		console.log("message not for : " + conMan[currentSocket].wsdata.ipadd +"  from : "+evt.srcElement.URL)
@@ -62,15 +78,10 @@ function onMessage(evt) {
 			if (currentSocketRange()) {
 				
 				fullurl = streamURL(currentTrack);
-				/*
-				fullurl = "http://" + conMan[currentSocket].wsdata.ipadd + ":" + 
-						conMan[currentSocket].wsdata.porthttpd + "/" + currentTrack;
-			*/
 	console.log("In prep calling url for player")
 
 				$media.attr("src", fullurl)
 				dommedia.load();	//This is not needed in all browsers but good for now
-				$("#songdisp").text("Now Playing : " + currentTrack)
 				$('#copybut').data("ziplink", fullurl + ".zip")			
 				doSend("READY")
 			}
@@ -98,17 +109,17 @@ function onMessage(evt) {
 				canplaycmd = seekto
 				dommedia.currentTime = seekto
 				dommedia.play()
-				console.log("In Play try block");
+//				console.log("In Play try block");
 				canplaycmd = IGNORE_CANPLAY
 			} catch(err) {
 				console.log("Got Play error : " + err)
 			}
 		} else if (iscommand(evt,"ZIPREADY")){
-			console.log("zip link is : "+ $('#copybut').data("ziplink"))
-
 			window.location.href = $('#copybut').data("ziplink")
 			setTimeout(setBeforeUnload, 8000)	//Seems to need time after location call else thinks leaving
-		}
+		} else if (iscommand(evt,"DOWNEN:")){
+			enableDownload(getComArg(evt) == "T")
+		}	
 }
 
 
@@ -116,12 +127,7 @@ function calcSeek(seektime) {
 	return(parseInt((parseInt(seektime) + 500) / 1000));
 }
 
-/*
-function startPlay(seektime){
-	dommedia.currentTime = calcSeek(seektime)
-	dommedia.play()
-}
-*/
+
 
 function mediaCanPlay(evt){
 
@@ -154,7 +160,7 @@ function onError(evt) {
 
 
 function doSend(message) {
-	console.log("SENT to server : " + message + "  conMan index : "+ currentSocket);
+//	console.log("SENT to server : " + message + "  conMan index : "+ currentSocket);
 
 	if (currentSocketRange()) {
 		getWebSocket().send(message); 
@@ -187,5 +193,74 @@ function iscommand(evt,com) {
 
 function getComArg(evt) {
 
-	return(evt.data.split(":",2)[1])
+	return(evt.data.substring(evt.data.indexOf(':')+1));
 }
+
+
+function getSongData(evt) {
+	var i;
+	
+	songa =	evt.data.split(":",4)
+	for (i=0; i<songa.length; i++){
+		songa[i] = songa[i].replace(/~%~/g,":")
+	}
+	return songa;
+}
+
+
+function enableDownload(enflg) {
+	
+	if (enflg != downloadstate) {		//Only update on change of state
+		if (enflg){
+			$("#copybut").button("enable")
+		} else {
+			$("#copybut").button("disable")
+		}
+		downloadstate = enflg
+	}
+}	
+
+
+function setRemote(){
+	cmd = "REMOTE:";
+	
+	jobj = $(this).parent().find('span.ui-btn-text')
+	
+	if (onRemote) {
+		cmd += "F"
+		butonIndicator($(this), false)
+	} else {
+		cmd += "T"
+		butonIndicator($(this), true)
+	}
+	
+	onRemote = !onRemote;
+	sendToAll(cmd)
+}
+	
+	
+function butonIndicator(butn, onoff){
+	
+	jobj = butn.parent().find('span.ui-btn-text')
+	
+	if (jobj.length == 0) return;
+	
+	if (onoff){
+		jobj.addClass("butactive")
+	} else {
+		jobj.removeClass("butactive")
+	}
+}
+
+
+
+function localSelectRemote(ipadd) {
+	
+	if (onRemote){
+		sendToAll("REMOTE:"+ipadd)
+	}
+}
+
+
+
+

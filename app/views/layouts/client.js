@@ -27,7 +27,8 @@ $(document).ready(function(){
 	$("#copybut").click(beginDownload)
 	$("#playbut").click(playAudio)
 	$("#refresh").click(refreshLookup)
-
+	$("#remotebut").click(setRemote)
+	
 	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
 	$media.bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
 	
@@ -53,6 +54,8 @@ function initAjax() {
 
 
 function initLocation() {
+	
+	butonIndicator($('#refresh'), true)
 
 	navigator.geolocation.getCurrentPosition(GetLocation, noLocation);
 	
@@ -105,15 +108,15 @@ function serverLookup(xlng, xlat, userhandle) {
 			}
 			
 			if (pingflg) {		//This is a new one
-				console.log("go ahead and ping : " + data[i].ipadd)
+//				console.log("go ahead and ping : " + data[i].ipadd)
 				pingWebSocket(data[i])
 			}
 		}
 	})
 	
 	++pollcount;
-		console.log("In managePoll count : " + pollcount)
-	if (pollcount >= 2) {
+//		console.log("In managePoll count : " + pollcount)
+	if (pollcount >= 100) {
 		clearPoll()
 	}
 }
@@ -124,7 +127,6 @@ function scanrtn(evt) {
 	var code = (evt.keyCode ? evt.keyCode : evt.which);
 	
 	if(code == 13) { //Enter keycode
-		alert("Got rtn")
 		refreshLookup()
 	}
 }
@@ -134,6 +136,7 @@ function refreshLookup() {
 	clearPoll()
 	pollcount = 0
 	initLocation()
+	
 }
 
 
@@ -147,31 +150,27 @@ function clearPoll() {
 		clearTimeout(timeid)
 		timeid = null;
 	}
+	butonIndicator($('#refresh'), false)
 }
 
 
 function appendServer(wsdata,pos){
-/*	
-	item = $('<tr><td><img class="userimage"/></td><td><a href=\"#\">' + wsdata.userhandle + 
-	"</a></td><td><input type='radio' name='playing' /></td></tr>")
-*/	
-	console.log("calling append server");
 	
 	item = $('<li data-theme="c" data-icon="false"><a href="#"><div class="ui-grid-b">'+
 	'<div class="ui-block-a" style="width:20%;"><img class="userimage" /></div>'+
 	'<div class="ui-block-b" style="width:75%;"><div>' + wsdata.userhandle + 
-	'</div><div class="songtitle">Tile</div><div class="albumartist">Album, artist</div></div><div class="ui-block-c" style="width:5%;">'+
+	'</div><div class="songtitle"></div><div class="albumartist"></div></div><div class="ui-block-c" style="width:5%;">'+
 	'<h2></h2><input type="radio" name="playing" /></div></div></a></li>')
 	item.find('img').attr('src',"http://"+wsdata.ipadd+":"+wsdata.porthttpd+"/FlSkHtml/serverphoto.jpg")
 	
 	aitem = item.find('a')
-	aitem.data('conManpos',pos).click(callServer)
-	aitem.find('input[type=radio]').click(clickRadio)
+	aitem.click(callServer)
+	aitem.find(SELECT_TARGET).click(clickRadio).data('conManpos',pos)
 	$("#pick").append(item)
 	$("#pick").listview('refresh');
 	
 	if ($("#pick").children('li').length == 1 ) {  // first item added starts playing imediately
-		item.find('a').click()
+		item.find(SELECT_TARGET).click()
 		setBeforeUnload()
 		
 	}
@@ -191,21 +190,20 @@ function removeServer(jqobj) {
 }
 
 
-function callServer(ev) {
+function callServer(ev, data) {
 	ev.preventDefault();
-	ev.stopPropagation();
 	
-	$(this).find('input[type=radio]').click()
-	currentSocket = parseInt($(this).data("conManpos"))
-	signalServer();
+	$(this).find(SELECT_TARGET).click()
 }
 
 
 
-function clickRadio(ev) {
-
+function clickRadio(ev,data) {	//This is here to eat the event. Do not remove
 	ev.stopPropagation();
-	//This is here to eat the event. Do not remove
+	
+	currentSocket = parseInt($(this).data("conManpos"))
+	signalToRemotes(currentSocket)
+	signalServer();
 }
 
 
@@ -223,6 +221,7 @@ function conManLoad(wsaddr){
 					parseInt(conMan[i].wsdata.portsock) > 0){
 //			console.log("Found in conMan : "+wsaddr)
 			conMan[i].jqry = appendServer(conMan[i].wsdata,i)
+			conMan[i].websocket.send("WHATPLAY");  // Give me the current songs
 			conMan[i].wsdata.portsock = 0;		//This is here to stop reconnecting but may not be needed
 			return
 		}
@@ -273,6 +272,11 @@ function alertNoLoc(xlng, xlat){
 function closeSockets() {
 	
 	$(window).unbind('beforeunload',closeSockets)
+	
+	if (onRemote) {
+		setRemote()		//Clear any remotes and toggle button
+	}
+	
 	clearPoll();
 	
 	for (i=0; i < conMan.length; i++){
@@ -326,3 +330,73 @@ function getWebSocket(){
 	
 	return(conMan[currentSocket].websocket);
 }
+
+
+
+function updatePlaying(evt){
+	
+	ipadd = evt.srcElement.URL.substr(5)
+	ipadd = ipadd.split(":",2)[0]
+	
+	for (i=0; i<conMan.length; i++) {
+		if (conMan[i] != null && conMan[i].wsdata.ipadd == ipadd) {
+			songa = getSongData(evt) 
+			conMan[i].jqry.find('.songtitle').text(songa[1])
+			conMan[i].jqry.find('.albumartist').text(formatAlArtist(songa[2],songa[3]))
+		}
+	}
+}
+
+
+function formatAlArtist(album, artist){
+	
+	var albart = "";
+	
+	if (artist.indexOf("<unknown>") == -1 && artist.indexOf("Unknown") == -1) {
+		        	albart = artist;
+	} else {
+  	albart = "";
+  }
+
+  if (albart.length > 0) {
+	  if (album.length > 0) {
+		  albart = album +"  -   " + albart;
+	  }
+  } else {
+	  albart = album;
+  }
+  return(albart);
+}
+
+
+function sendToAll(cmd){
+	
+	for (i=0; i<conMan.length; i++) {
+		if (conMan[i] != null) {
+			conMan[i].websocket.send(cmd)
+		}
+	}
+}
+
+
+function setRemoteRequest(evt){
+	
+	ipadd = evt.srcElement.URL.substr(5)
+	ipadd = ipadd.split(":",2)[0]
+	
+	for (i=0; i<conMan.length; i++) {
+		if (conMan[i] != null && conMan[i].wsdata.ipadd == ipadd) {
+			conMan[i].jqry.find(SELECT_TARGET).click()
+		}
+	}
+}
+
+
+function signalToRemotes(selected){
+	
+	if (currentSocketRange() && onRemote){
+		sendToAll("REMOTE:"+conMan[selected].wsdata.ipadd);
+	}
+}
+
+
