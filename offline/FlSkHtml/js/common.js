@@ -95,11 +95,11 @@ function refreshLookup() {
 }
 
 
-
+/*		Leave in for awhile
 function pollLookup(){
 	serverLookup(lng, lat, $("#userhandle").val());
 }
-
+*/
 
 
 function clearPoll() {
@@ -618,5 +618,7 @@ function localSelectRemote(ipadd) {
 		sendToAll("REMOTE:"+ipadd)
 	}
 }
+
+
 
 
