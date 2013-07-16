@@ -94,7 +94,7 @@ class ResolversController < ApplicationController
     xparam = params
     xparam.delete :action
     xparam.delete :controller
-    xparam[:userhandle] = request.remote_ip
+#    xparam[:userhandle] = request.remote_ip
     puts "THis is the IP Address : #{request.remote_ip}"
     if rec.update_attributes(xparam)  
       updated = true
