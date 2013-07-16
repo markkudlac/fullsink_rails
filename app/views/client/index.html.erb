@@ -19,7 +19,7 @@
 			<input type="search" name="username" id="userhandle" value="" placeholder="User Name">
 			</td>
 	    <td style='font-size:80%; width:7em'>
-				<button id="refresh" data-icon="refresh" data-theme="a">Refresh</button>
+				<button id="refresh" data-icon="refresh" data-mini="true" data-theme="a">Refresh</button>
 	 		</td>
 		</tr></table>
 	</div>
@@ -55,7 +55,7 @@
 <% if Rails.env.production? %>
 <% 	url =  "http://www.fullsink.com" %>
 <% else %>
-<% url = "http://192.168.1.104:3000" %>
+<% url = "http://192.168.1.103:3000" %>
 <% end %>
 
 <!-- common.js should be loaded first -->
