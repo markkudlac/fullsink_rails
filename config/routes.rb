@@ -13,6 +13,7 @@ root :to => "client#index"
 
 put "/api/:device/:devtype" => "resolvers#upadd"
 get "api/search" => "resolvers#search"
+get "api/router" => "resolvers#router"
 
 match "/admin", to: "resolvers#index"
 

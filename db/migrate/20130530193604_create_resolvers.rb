@@ -4,6 +4,8 @@ class CreateResolvers < ActiveRecord::Migration
       t.string :device,          :limit => 20, :null => false
       t.string :devtype,         :limit => 1, :null => false 
       t.string :userhandle,      :limit => 20
+      t.string :netname,         :limit => 20
+      t.string :iprouter,        :limit => 15, :default => "OFF", :null => false
       t.string :ipadd,           :limit => 15, :default => "OFF", :null => false
       t.integer :portsock,       :default => 0
       t.integer :porthttpd,      :default => 0
@@ -16,5 +18,6 @@ class CreateResolvers < ActiveRecord::Migration
     add_index :resolvers, :userhandle
     add_index :resolvers, :longitude
     add_index :resolvers, :latitude
+    add_index :resolvers, :iprouter
   end
 end

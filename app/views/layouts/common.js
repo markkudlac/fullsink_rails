@@ -101,6 +101,11 @@ function pollLookup(){
 }
 
 
+function pollRouterLookup(){
+	routerLookup($("#userhandle").val());
+}
+
+
 
 function clearPoll() {
 	if (timeid != null) {
@@ -512,7 +517,7 @@ function mediaPause(evt){
 
 
 function onError(evt) { 
-	alert('ERROR:  ' + evt.message); 
+//	alert('ERROR:  ' + evt.message); 
 }
 
 

@@ -1,6 +1,6 @@
 class Resolver < ActiveRecord::Base
-  attr_accessible :device, :devtype, :ipadd, :latitude,
-   :longitude, :porthttpd, :portsock, :userhandle
+  attr_accessible :device, :devtype, :iprouter, :ipadd, :latitude,
+   :longitude, :porthttpd, :portsock, :userhandle, :netname
 
 #this will need to be adjusted later
 RANGE = 500000
@@ -18,4 +18,16 @@ RANGE = 500000
     return rec
   end
   
+  
+  def self.get_byrouter(router, userhandle)
+  
+    rec = where("iprouter LIKE ? AND ipadd != ?", router, "OFF") 
+    
+    if (userhandle.length() > 0) then
+      nam = where("userhandle LIKE ? AND ipadd != ?", userhandle, "OFF")
+      rec = rec + nam
+    end
+    
+    return rec
+  end
 end
