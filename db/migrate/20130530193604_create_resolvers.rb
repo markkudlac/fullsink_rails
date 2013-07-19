@@ -16,8 +16,8 @@ class CreateResolvers < ActiveRecord::Migration
     end
     add_index :resolvers, [:device, :devtype], :unique => true
     add_index :resolvers, :userhandle
-    add_index :resolvers, :longitude
-    add_index :resolvers, :latitude
+#    add_index :resolvers, :longitude
+#    add_index :resolvers, :latitude
     add_index :resolvers, :iprouter
   end
 end

@@ -18,7 +18,7 @@ function initOnLine() {
 	
 	initAjax()
 	
-	maxpollcnt = 50;		// Numer of polls to make to server -1 means none
+	maxpollcnt = -1;		// Numer of polls to make to server -1 means none
 	
 	butonIndicator($('#refresh'), true)
 
@@ -52,14 +52,14 @@ function initOnLine() {
 		timeid = setInterval(pollLookup, 7000)
 */
 		routerLookup($("#userhandle").val());
-		timeid = setInterval(pollRouterLookup, 8000)
+		timeid = setInterval(pollRouterLookup, 10000)
 	}
 
 
 
 	function serverLookup(xlng, xlat, userhandle) {
 
-		var pingflg = true;
+//		var pingflg = true;
 
 		alertNoLoc(xlng, xlat)
 
@@ -75,7 +75,7 @@ function initOnLine() {
 
 	function routerLookup(userhandle) {
 
-		var pingflg = true;
+//		var pingflg = true;
 
 		$.get('<%= url %>'+"/api/router",{userhandle: userhandle},processAddress);
 

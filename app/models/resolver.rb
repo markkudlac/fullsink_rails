@@ -21,10 +21,10 @@ RANGE = 500000
   
   def self.get_byrouter(router, userhandle)
   
-    rec = where("iprouter LIKE ? AND ipadd != ?", router, "OFF") 
+    rec = where("iprouter LIKE ? AND ipadd != ?", router, "OFF").order("updated_at DESC").limit(255)
     
     if (userhandle.length() > 0) then
-      nam = where("userhandle LIKE ? AND ipadd != ?", userhandle, "OFF")
+      nam = where("userhandle LIKE ? AND ipadd != ?", userhandle, "OFF").order("updated_at DESC").limit(50)
       rec = rec + nam
     end
     

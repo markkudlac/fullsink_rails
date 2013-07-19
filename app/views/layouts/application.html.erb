@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fullsink Audio</title>
+  <title>Fullsink</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<h1>FullSink Audio</h1>
+	<h1>FullSink</h1>
 	<span id="contact"">Contact: <a href="mailto:mark.kudlac@fullsink.com"">mark.kudlac@fullsink.com</a></span>
 	<% if admin_signed_in? then %>
 		<%= content_tag :li, link_to("Server Management", resolvers_path,	:id=>"mn_admin") %>
@@ -18,7 +18,7 @@
 			<%= content_tag :li, link_to("Sign Out", destroy_admin_session_path,
 				method: :delete,	:id=>"mn_signout") %>
 	<% end%>
-	</br>
+	<br/>
 				
 	<%= yield %>
 
