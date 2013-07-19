@@ -18,7 +18,7 @@ function initOnLine() {
 	
 	initAjax()
 	
-	maxpollcnt = -1;		// Numer of polls to make to server -1 means none
+	maxpollcnt = 30;		// Numer of polls to make to server -1 means none
 	
 	butonIndicator($('#refresh'), true)
 
