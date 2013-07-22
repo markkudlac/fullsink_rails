@@ -18,11 +18,10 @@ function initOnLine() {
 	
 	initAjax()
 	
-	maxpollcnt = 30;		// Numer of polls to make to server -1 means none
+	maxpollcnt = 100;		// Numer of polls to make to server -1 means none
 	
 	butonIndicator($('#refresh'), true)
 
-/*
 	navigator.geolocation.getCurrentPosition(GetLocation, noLocation);
 	
 	function GetLocation(location) {
@@ -48,18 +47,15 @@ function initOnLine() {
 			console.log("No location returned")
 				serverLookup(lng, lat, $("#userhandle").val());
 		}
-		
-		timeid = setInterval(pollLookup, 7000)
-*/
-		routerLookup($("#userhandle").val());
-		timeid = setInterval(pollRouterLookup, 10000)
+
+		timeid = setInterval(pollLookup, 5000)
 	}
 
 
 
 	function serverLookup(xlng, xlat, userhandle) {
 
-//		var pingflg = true;
+		var pingflg = true;
 
 		alertNoLoc(xlng, xlat)
 
@@ -71,21 +67,6 @@ function initOnLine() {
 			clearPoll()
 		}
 	}
-
-
-	function routerLookup(userhandle) {
-
-//		var pingflg = true;
-
-		$.get('<%= url %>'+"/api/router",{userhandle: userhandle},processAddress);
-
-		++pollcount;
-			console.log("In routerLookup count : " + pollcount)
-		if (pollcount >= maxpollcnt) {
-			clearPoll()
-		}
-	}
-
 
 
 //////*************** Below is for offline local serving  **************////
@@ -118,8 +99,8 @@ function loadAdressandPage() {
 			conn.porthttpd = parseUri(window.location).port
 			console.log("Back with serverid socketport data : " + data.port)
 //			createWebSocket(parseUri(window.location).host, data.port)
-			con.userhandle = data.id;
-			con.portsock = data.port
+			conn.userhandle = data.id;
+			conn.portsock = data.port
 
 			processAddress([ conn ])
 		})
