@@ -1,4 +1,10 @@
 Fullsink::Application.routes.draw do
+  get "static/about"
+
+  get "static/help"
+
+  get "static/share"
+
   devise_for :admins
 
   get "client/index"
@@ -9,13 +15,18 @@ Fullsink::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-root :to => "client#index"
-
 put "/api/:device/:devtype" => "resolvers#upadd"
 get "api/search" => "resolvers#search"
 get "api/router" => "resolvers#router"
 
 match "/admin", to: "resolvers#index"
+match "/player", to: "client#player"
+match "/about", to: "static#about"
+match "/share", to: "static#share"
+match "/help", to: "static#help"
+
+
+ root :to => "client#index"
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
