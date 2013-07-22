@@ -10,7 +10,7 @@ RANGE = 500000
     rec = where("latitude > ? AND latitude < ? AND longitude > ? AND longitude < ? AND ipadd != ?", 
     lat.to_i - RANGE, lat.to_i + RANGE, lng.to_i - RANGE, lng.to_i + RANGE,"OFF")
     
-    if (userhandle.length() > 0) then
+    if (userhandle != nil && userhandle.length() > 0) then
       nam = where("userhandle LIKE ? AND ipadd != ?", userhandle, "OFF")
       rec = rec + nam
     end
@@ -21,9 +21,13 @@ RANGE = 500000
   
   def self.get_byrouter(router, userhandle)
   
+    if router == nil then 
+      router = "NONE"
+    end
+    
     rec = where("iprouter LIKE ? AND ipadd != ?", router, "OFF").order("updated_at DESC").limit(255)
     
-    if (userhandle.length() > 0) then
+    if (userhandle != nil && userhandle.length() > 0) then
       nam = where("userhandle LIKE ? AND ipadd != ?", userhandle, "OFF").order("updated_at DESC").limit(50)
       rec = rec + nam
     end
