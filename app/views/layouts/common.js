@@ -54,6 +54,8 @@ function initCommon(){
 
 function processAddress(data) {
 	
+	var i,j,pingflg;
+	
 			for (i=0; i < data.length; i++) {
 				console.log("Got : " + data[i].userhandle)
 
@@ -101,6 +103,11 @@ function pollLookup(){
 }
 
 
+function pollRouterLookup(){
+	routerLookup($("#userhandle").val());
+}
+
+
 
 function clearPoll() {
 	if (timeid != null) {
@@ -113,6 +120,8 @@ function clearPoll() {
 
 function appendServer(wsdata,pos){
 	
+	var item, aitem;
+	
 	item = $('<li data-theme="c" data-icon="false"><a href="#"><div class="ui-grid-b">'+
 	'<div class="ui-block-a" style="width:20%;"><img class="userimage" src="img/ic_menu_invite.png"/></div>'+
 	'<div class="ui-block-b" style="width:75%;"><div>' + wsdata.userhandle + 
@@ -124,7 +133,7 @@ function appendServer(wsdata,pos){
 			item.find('img').attr('src',"img/ic_menu_invite.png")
 		})
 	
-	console.log("image value : "+ item.find('img').attr('src'))
+//	console.log("image value : "+ item.find('img').attr('src'))
 	
 	aitem = item.find('a')
 	aitem.click(callServer)
@@ -179,10 +188,11 @@ function conQueue(wsdata, websocket){
 
 function conManLoad(wsaddr){
 	var i;
+	
 	for (i=0; i < conMan.length; i++){
 		if (conMan[i] != null && wsaddr.indexOf(conMan[i].wsdata.ipadd) >= 0 && 
 					parseInt(conMan[i].wsdata.portsock) > 0){
-//			console.log("Found in conMan : "+wsaddr)
+			console.log("Found in conMan : "+wsaddr)
 			conMan[i].jqry = appendServer(conMan[i].wsdata,i)
 			conMan[i].websocket.send("WHATPLAY");  // Give me the current songs
 			conMan[i].wsdata.portsock = 0;		//This is here to stop reconnecting but may not be needed
@@ -196,6 +206,7 @@ function conManClear(wsaddr){
 	
 //	console.log("Clear conMan : "+wsaddr + "   len : " + conMan.length)
 	var i;
+	
 	for (i=0; i < conMan.length; i++){
 		if (conMan[i] != null && wsaddr.indexOf(conMan[i].wsdata.ipadd) >= 0){
 			console.log("Found in Clear conMan : "+wsaddr)
@@ -222,6 +233,7 @@ function currentSocketRange() {
 }
 
 
+/*
 function alertNoLoc(xlng, xlat){
 	
 	if (handlealert && (parseInt(xlng) >= nullloc || 
@@ -230,9 +242,11 @@ function alertNoLoc(xlng, xlat){
 		handlealert =  false
 	}
 }
-
+*/
 
 function closeSockets() {
+	
+	var i;
 	
 	$(window).unbind('beforeunload',closeSockets)
 	
@@ -284,7 +298,9 @@ function streamURL(track) {
 
 function messageNotMine(evt) {
 	
-	return(! currentSocketRange() || evt.srcElement.URL.indexOf(conMan[currentSocket].wsdata.ipadd) != 5);
+//	console.log("Print evt WebSocket URL : " + evt.currentTarget.url)
+//	console.dir( evt.currentTarget)
+	return(! currentSocketRange() || evt.currentTarget.url.indexOf(conMan[currentSocket].wsdata.ipadd) != 5);
 }
 
 
@@ -297,8 +313,9 @@ function getWebSocket(){
 
 
 function updatePlaying(evt){
+	var i;
 	
-	ipadd = evt.srcElement.URL.substr(5)
+	var ipadd = evt.currentTarget.url.substr(5)
 	ipadd = ipadd.split(":",2)[0]
 	
 	for (i=0; i<conMan.length; i++) {
@@ -333,6 +350,7 @@ function formatAlArtist(album, artist){
 
 
 function sendToAll(cmd){
+	var i;
 	
 	for (i=0; i<conMan.length; i++) {
 		if (conMan[i] != null) {
@@ -343,8 +361,9 @@ function sendToAll(cmd){
 
 
 function setRemoteRequest(evt){
+	var i;
 	
-	ipadd = evt.srcElement.URL.substr(5)
+	var ipadd = evt.currentTarget.url.substr(5)
 	ipadd = ipadd.split(":",2)[0]
 	
 	for (i=0; i<conMan.length; i++) {
@@ -393,13 +412,13 @@ function signalServer() {
 function onOpen(evt) {
 
   console.log("onOpen : CONNECTED :");
-	conManLoad(evt.srcElement.URL)
+	conManLoad(evt.currentTarget.url)
 }  
 
 
 function onClose(evt) { 
 	console.log("DISCONNECTED : " + evt.code); 
-	conManClear(evt.srcElement.URL)
+	conManClear(evt.currentTarget.url)
 } 
 
 
@@ -421,7 +440,7 @@ function onMessage(evt) {
 	
 	// Check to see that messages are for the current live stream only. Drop rest
 	if (messageNotMine(evt)) {
-//		console.log("message not for : " + conMan[currentSocket].wsdata.ipadd +"  from : "+evt.srcElement.URL)
+//		console.log("message not for : " + conMan[currentSocket].wsdata.ipadd +"  from : "+evt.currentTarget.url)
 		return
 	}
 	
@@ -434,7 +453,7 @@ function onMessage(evt) {
 			if (currentSocketRange()) {
 				
 				fullurl = streamURL(currentTrack);
-	console.log("In prep calling url for player")
+//	console.log("In prep calling url for player")
 
 				$media.attr("src", fullurl)
 				dommedia.load();	//This is not needed in all browsers but good for now
@@ -512,7 +531,7 @@ function mediaPause(evt){
 
 
 function onError(evt) { 
-	alert('ERROR:  ' + evt.message); 
+//	alert('ERROR:  ' + evt.message); 
 }
 
 

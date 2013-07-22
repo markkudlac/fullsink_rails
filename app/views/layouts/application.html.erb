@@ -1,57 +1,29 @@
 <!DOCTYPE html>
 <html>
-	<style>	
-		@import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
-	</style>
-	<head>
-		<title>Fullsink Audio</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <title>Fullsink</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
 
-		<%= stylesheet_link_tag    "application", :media => "all" %>
-		<%= javascript_include_tag "application" %>
-		<%= csrf_meta_tags %>
-	</head>
-	<body>
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container-fluid">
-					<a href="#" class="brand"><img id="logo_image" class="logo" src="img/fs_logo_comb.png"> </a>
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
-					<div class="nav-collapse">
-						<ul class="nav pull-right">
-							<li>
-								<%= link_to "Home", "/" %>
-							</li>
-							<li>
-								<%= link_to "About Us", about_path %>
-							</li>
-							<li>
-								<%= link_to "Share", share_path %>
-							</li>
-							<li>
-								<%= link_to "Help", help_path %>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+	<h1>FullSink</h1>
+	<span id="contact"">Contact: <a href="mailto:mark.kudlac@fullsink.com"">mark.kudlac@fullsink.com</a></span>
+	<% if admin_signed_in? then %>
+		<%= content_tag :li, link_to("Server Management", resolvers_path,	:id=>"mn_admin") %>
+			<%= content_tag :li, link_to("Home", client_index_path,	:id=>"mn_admin") %>
+			<%= content_tag :li, link_to("Sign Out", destroy_admin_session_path,
+				method: :delete,	:id=>"mn_signout") %>
+	<% end%>
+	<br/>
+				
+	<%= yield %>
 
-		<%= yield %>
+	<p class="notice"><%= notice %></p>
+	<p class="alert"><%= alert %></p>
 
-
-	</body>
-	<script type="text/javascript">
-		if (typeof(Zenbox) !== "undefined") {
-			Zenbox.init({
-				dropboxID: "20183452",
-				url: "https://fullsink.zendesk.com",
-				tabTooltip: "Feedback",
-				tabImageURL: "https://assets.zendesk.com/external/zenbox/images/tab_feedback_right.png",
-				tabColor: "black",
-				tabPosition: "Right"
-			});
-		}
-	</script>
-
+</body>
 </html>

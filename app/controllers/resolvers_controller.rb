@@ -1,6 +1,6 @@
 class ResolversController < ApplicationController
   
-  before_filter :authenticate_admin!, :except => [:upadd, :search]
+  before_filter :authenticate_admin!, :except => [:upadd, :search, :router]
   
   
   # GET /resolvers
@@ -95,6 +95,13 @@ class ResolversController < ApplicationController
     xparam.delete :action
     xparam.delete :controller
     
+    if Rails.env.production?
+      xparam[:iprouter] = request.remote_ip
+    else
+      xparam[:iprouter] = "TEST_IP"
+    end
+      
+#    puts "THis is the IP Address : #{request.remote_ip}"
     if rec.update_attributes(xparam)  
       updated = true
     end
@@ -102,11 +109,27 @@ class ResolversController < ApplicationController
     render :json => { :rtn => updated }
   end
   
+  
   def search
     rec = Resolver.get_servers(params[:lng], params[:lat], params[:userhandle])
  #   puts "Found : #{rec[0]}"
     render :json => rec
   end
+  
+  
+  def router
+    
+     if Rails.env.production?
+        iprouter = request.remote_ip
+      else
+        iprouter = "TEST_IP"
+      end
+      
+    rec = Resolver.get_byrouter(iprouter, params[:userhandle])
+ #   puts "Found : #{rec[0]}"
+    render :json => rec
+  end
+  
 end
 
 

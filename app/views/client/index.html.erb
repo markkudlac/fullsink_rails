@@ -1,40 +1,74 @@
-<script type="text/javascript" charset="utf-8">
-	var isMobile = Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)");
-	//(navigator.userAgent.toLowerCase().indexOf("mobile") != -1 && navigator.userAgent.toLowerCase().indexOf("ipad") == -1);
-	if (isMobile) {
-		window.location.replace("http://192.168.1.110:3000/player");
-	}
-</script>
-<div class="row" style="height:800px; background-image: url('img/fs_Background.gif'); background-repeat: no-repeat; padding-top: 130px; background-size:100% 100%; ">
-	<div class="span4 offset3">
-		<div id="div_iframe">
-			<iframe id="iframe" src="http://192.168.1.110:3000/player" seamless ></iframe>
+
+<!-- Display the servers -->
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+<div data-role="page" id="fullhead" data-theme="b">
+	<div data-role="header" data-position="fixed" data-theme="a">
+		<img id="logo_image" src="img/fs_mdpi_logo_white.png" />
+	</div>
+
+	<div data-role="content">
+		<ul id="pick" data-role="listview" data-theme="c" data-inset="false">
+		</ul>
+	</div>
+
+	<div data-role="content">
+		<table style='width:100%'><tr><td>
+			<input type="search" name="username" id="userhandle" value="" placeholder="User Name">
+			</td>
+	    <td style='font-size:80%; width:7em'>
+				<button id="refresh" data-icon="refresh" data-mini="true" data-theme="a">Refresh</button>
+	 		</td>
+		</tr></table>
+	</div>
+
+
+	<div data-role="footer" data-position="fixed" class="ui-bar" data-theme="c">
+		<div class="ui-grid-solo">
+			<div class="ui-block-a">
+				<audio id="media" src="" style="width:95%" preload="auto" controls >
+				<p>Your browser does not support the audio element.</p>
+				</audio>
+			</div>
 		</div>
+
+		<div class="ui-grid-b">
+			<div class="ui-block-a" style="width:25%">
+					<button id="playbut" data-icon="arrow-r" data-theme="a">Play</button>
+			</div>
+
+			<div class="ui-block-b" style="width:25%">
+				<button id="remotebut" data-theme="a">Remote</button>
+				</div>
+
+			<div class="ui-block-c" style="width:30%; float: right; margin-right: 30px;">
+				<button id="copybut" data-icon="arrow-d" data-theme="a" >Download</button>
+			</div>	   
+		</div>
+
 	</div>
-	<div class="span3 offset1">
-		<p style="text-align: center; font-family: Euphemia;">
-			<span class="line1"> Get out of the Cloud.</span>  <br></br>
 
-			<span class="line2">Use Fullsink to share
-				music in real time
-				with those around you.</span> <br></br>
-
-			<span class="line3">Get started now!</span>  <br></br>
-
-			<img src="img/fs_DownloadButton.gif"  width="150" height="75" align="center">
-			<br></br>
-
-			<span class="line4"> Play a song using the app.
-
-				Listen in with the Fullsink Audio live player on your browser.</span>  <br></br>
-		</p>
-	</div>
 </div>
-<div class="row" style="padding-top: 100px; height:800px;  background-color: #ccccff">
 
-	<div class="span3 offset1" style="height:500px; border: thin  solid #000; border-radius: 20px; background-color: #21B6ED"></div>
-	<div class="span3" style="height:500px; border: thin solid #000; border-radius: 20px; background-color: #ddf0f8"></div>
-	<div class="span3" style="height:500px; border: thin solid #000; border-radius: 20px; background-color: #3e6790 "></div>
-	<div class="span3" style="height:500px; border: thin solid #000; border-radius: 20px; background-color: #7cc4e7"></div>
-	<div class="span2"></div>
-</div>
+<% if Rails.env.production? %>
+<% 	url =  "http://www.fullsink.com" %>
+<% else %>
+<% url = "http://192.168.1.103:3000" %>
+<% end %>
+
+<!-- common.js should be loaded first -->
+<%= javascript_tag(render :template => "layouts/common", :formats => [:js]) %>
+<%= javascript_tag(render :template => "layouts/addressload", :formats => [:js],
+	:locals => {:url => url}) %>
+
+	<script>
+	$(document).ready(function(){
+
+		console.log("Document ready")
+		initCommon();
+		initOnLine()
+
+	})
+	</script

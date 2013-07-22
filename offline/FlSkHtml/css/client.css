@@ -25,10 +25,9 @@ input[type=radio] {
 }
 
 #logo_image {
-	margin: 0 auto;
+	display: block;
+  text-align: center;
+  margin: 0 auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	width: 251px;
-	height: 37px;
-	display: inline;
 }
