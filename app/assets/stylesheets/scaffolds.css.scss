@@ -9,25 +9,6 @@ body {
 
 
 
-.line1{
-	font-size: 22px;
-	font-weight: 700;
-}
-
-.line2{
-	font-size: 18px;
-	font-weight: 600;
-}
-
-.line3{
-	font-size: 23px;
-	font-weight: 600;
-}
-
-.line4{
-	font-size: 16px;
-	font-weight: 600;
-}
 
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -41,16 +22,16 @@ pre {
   font-size: 11px;
 }
 
-a {
+/*a {
   color: #000;
   &:visited {
     color: #666;
   }
   &:hover {
-    color: #fff;
+    color: #111;
     background-color: #000;
   }
-}
+}*/
 
 div {
   &.field, &.actions {

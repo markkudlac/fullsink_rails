@@ -1,2 +1,34 @@
-<h1>Static#about</h1>
-<p>Find me in app/views/static/about.html.erb</p>
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a href="#" class="brand"><img id="logo_image" class="logo" src="img/fs_logo_comb.png"> </a>
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+			<div class="nav">
+				<ul class="nav pull-right">
+					<li>
+						<%= link_to "Home", "/" %>
+					</li>
+					<li>
+						<%= link_to "About Us", about_path %>
+					</li>
+<!--					<li>
+						<%= link_to "Share", share_path %>
+					</li>
+					<li>
+						<%= link_to "Help", help_path %>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="height:800px; background-image: url('img/fs_Background.gif'); padding-top: 90px; background-size: contain; background-repeat: no-repeat;background-position: right;">
+	<div class="span3" style="margin-left: 80px">
+		<p style="text-align: left; font-family: Euphemia;">
+		<h2>Contact Us </h2> <br></br>
+			
+			<a class="link" href="mailto:info@fullsink.com">info@fullsink.com</a> 
+		</p>
+	</div>
+</div>
