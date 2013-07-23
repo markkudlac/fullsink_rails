@@ -12,31 +12,6 @@
 		<%= csrf_meta_tags %>
 	</head>
 	<body>
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container-fluid">
-					<a href="#" class="brand"><img id="logo_image" class="logo" src="img/fs_logo_comb.png"> </a>
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
-					<div class="nav-collapse">
-						<ul class="nav pull-right">
-							<li>
-								<%= link_to "Home", "/" %>
-							</li>
-							<li>
-								<%= link_to "About Us", about_path %>
-							</li>
-							<li>
-								<%= link_to "Share", share_path %>
-							</li>
-							<li>
-								<%= link_to "Help", help_path %>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<%= yield %>
 
 
