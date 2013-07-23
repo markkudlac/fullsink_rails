@@ -6,10 +6,14 @@
 	font-size: 6.5px;
 }
 
+#fullhead{
+	min-height: 100px;
+}
+
 #div_iframe {
 	position: absolute; 
 	width:300px !important; 
-	height:550px;
+	height:450px;
 	border:solid thick #000; 
 	border-bottom-width:50px; 
 	background-color:#111; 
@@ -19,7 +23,7 @@
 }
 #iframe {
 	width:300px; 
-	height:550px !important;
+	height:450px !important;
 	overflow:hidden; 
 	scrolling:no;
 	border: none;

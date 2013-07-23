@@ -126,7 +126,7 @@ function appendServer(wsdata,pos){
 	'<div class="ui-block-a" style="width:20%;"><img class="userimage" src="img/ic_menu_invite.png"/></div>'+
 	'<div class="ui-block-b" style="width:75%;"><div>' + wsdata.userhandle + 
 	'</div><div class="songtitle"></div><div class="albumartist"></div></div><div class="ui-block-c" style="width:5%;">'+
-	'<h2></h2><input type="radio" name="playing" /></div></div></a></li>')
+	'<input type="radio" style="margin-top:1.5em" name="playing" /></div></div></a></li>')
 	
 	item.find('img').attr('src',"http://"+wsdata.ipadd+":"+wsdata.porthttpd+"/UserHtml/serverphoto.jpg").error(
 		function(){
