@@ -118,8 +118,8 @@ function loadAdressandPage() {
 			conn.porthttpd = parseUri(window.location).port
 			console.log("Back with serverid socketport data : " + data.port)
 //			createWebSocket(parseUri(window.location).host, data.port)
-			con.userhandle = data.id;
-			con.portsock = data.port
+			conn.userhandle = data.id;
+			conn.portsock = data.port
 
 			processAddress([ conn ])
 		})

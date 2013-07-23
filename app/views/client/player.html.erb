@@ -53,16 +53,11 @@
 
 </div>
 
-<% if Rails.env.production? %>
-<% 	url =  "http://www.fullsink.com" %>
-<% else %>
-<% url = "http://192.168.1.110:3000" %>
-<% end %>
 
 <!-- common.js should be loaded first -->
 <%= javascript_tag(render :template => "layouts/common", :formats => [:js]) %>
 <%= javascript_tag(render :template => "layouts/addressload", :formats => [:js],
-	:locals => {:url => url}) %>
+	:locals => {:url => geturl}) %>
 
 	<script>
 	$(document).ready(function(){

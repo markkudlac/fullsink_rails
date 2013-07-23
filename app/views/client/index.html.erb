@@ -1,10 +1,15 @@
+
+<% ind_url = geturl %>
+
 <script type="text/javascript" charset="utf-8">
 	var isMobile = Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)");
 	//(navigator.userAgent.toLowerCase().indexOf("mobile") != -1 && navigator.userAgent.toLowerCase().indexOf("ipad") == -1);
 	if (isMobile) {
-		window.location.replace("http://192.168.1.110:3000/player");
+		window.location.replace('<%= geturl %>' + "/player");
 	}
 </script>
+
+
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
@@ -33,8 +38,9 @@
 </div>
 <div class="row" style="height:600px;  padding-top: 90px; background-size: contain; background-repeat: no-repeat;background-position: right;">
 	<div class="span4 offset1">
+
 		<div id="div_iframe">
-			<iframe id="iframe" src="http://192.168.1.110:3000/player" seamless ></iframe>
+			<iframe id="iframe" src="<%= geturl %>/player" seamless ></iframe>
 		</div>
 	</div>
 	<div class="span3 offset3">
