@@ -1,14 +1,18 @@
+
+<% ind_url = geturl %>
+
 <script type="text/javascript" charset="utf-8">
 	var isMobile = Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)");
 	//(navigator.userAgent.toLowerCase().indexOf("mobile") != -1 && navigator.userAgent.toLowerCase().indexOf("ipad") == -1);
 	if (isMobile) {
-		window.location.replace("http://192.168.1.110:3000/player");
+		window.location.replace('<%= geturl %>' + "/player");
 	}
 </script>
+
 <div class="row" style="height:800px; background-image: url('img/fs_Background.gif'); background-repeat: no-repeat; padding-top: 130px; background-size:100% 100%; ">
 	<div class="span4 offset3">
 		<div id="div_iframe">
-			<iframe id="iframe" src="http://192.168.1.110:3000/player" seamless ></iframe>
+			<iframe id="iframe" src="<%= geturl %>/player" seamless ></iframe>
 		</div>
 	</div>
 	<div class="span3 offset1">
