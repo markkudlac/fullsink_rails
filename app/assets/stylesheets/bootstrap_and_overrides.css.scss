@@ -1,0 +1,75 @@
+@import "bootstrap";
+
+#refresh{
+	position: float;
+	height:5px;
+	font-size: 6.5px;
+}
+
+#div_iframe {
+	position: absolute; 
+	width:300px !important; 
+	height:550px;
+	border:solid thick #000; 
+	border-bottom-width:50px; 
+	background-color:#111; 
+	padding:18px; 
+	border-radius: 40px; 
+	overflow: hidden;
+}
+#iframe {
+	width:300px; 
+	height:550px !important;
+	overflow:hidden; 
+	scrolling:no;
+	border: none;
+}
+
+.navbar-inner {
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#3c3c3c),to(#111));
+	background-image: -webkit-linear-gradient(#3c3c3c,#111);
+	background-image: -moz-linear-gradient(#3c3c3c,#111);
+	background-image: -ms-linear-gradient(#3c3c3c,#111);
+	background-image: -o-linear-gradient(#3c3c3c,#111);
+	background-image: linear-gradient(#3c3c3c,#111);
+}
+
+.navbar .nav {
+	display: inline;
+	margin-bottom: 10px;
+	margin-top: none;
+}
+
+.navbar .nav > li > a {
+float: none;
+padding: 20px 15px 10px;
+color: #fff;
+text-decoration: none;
+text-align: center;
+text-shadow: none;
+}
+
+.nav > li > a:focus{
+  outline: thin dotted #fff;
+  color: #f00;
+}
+
+.nav > li > a:visited {
+	color: #5f9cc5;
+}
+
+.ui-btn-text  {
+	font-size: 10.5px;
+}
+
+h2 {
+	font-family: Euphemia;
+	font-size: 20pt;
+	text-align:center;
+	font-weight:bold;
+	color: navy;
+	padding-top: 12px;
+	padding-bottom: 30px;
+}
+
+@import "bootstrap-responsive";
