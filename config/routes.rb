@@ -15,7 +15,7 @@ Fullsink::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-put "/api/:device/:devtype" => "resolvers#upadd"
+get "/api/:device/:devtype" => "resolvers#upadd"
 get "api/search" => "resolvers#search"
 get "api/router" => "resolvers#router"
 
