@@ -110,13 +110,6 @@ class ResolversController < ApplicationController
   end
   
   
-  def search
-    rec = Resolver.get_servers(params[:lng], params[:lat], params[:userhandle])
- #   puts "Found : #{rec[0]}"
-    render :json => rec
-  end
-  
-  
   def router
     
      if Rails.env.production?
@@ -125,7 +118,8 @@ class ResolversController < ApplicationController
         iprouter = "TEST_IP"
       end
       
-    rec = Resolver.get_byrouter(iprouter, params[:userhandle])
+#    rec = Resolver.get_byrouter(iprouter, params[:userhandle])
+    rec = Resolver.get_byrouter(iprouter)
  #   puts "Found : #{rec[0]}"
     render :json => rec
   end

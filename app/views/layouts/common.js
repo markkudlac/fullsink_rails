@@ -42,7 +42,7 @@ function initCommon(){
 	$("#refresh").click(refreshLookup)
 	$("#remotebut").click(setRemote)
 	
-	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
+//	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
 	
 	$media.bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
 	
@@ -97,14 +97,15 @@ function refreshLookup() {
 }
 
 
-
+/*
 function pollLookup(){
 	serverLookup(lng, lat, $("#userhandle").val());
 }
-
+*/
 
 function pollRouterLookup(){
-	routerLookup($("#userhandle").val());
+//	routerLookup($("#userhandle").val());
+	routerLookup();
 }
 
 

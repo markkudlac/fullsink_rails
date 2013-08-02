@@ -7,7 +7,6 @@
 <div data-role="page" id="fullhead" data-theme="b">
 	
 	<div id="header" data-role="header" data-position="fixed" data-theme="a">
-		<img id="logo_image" src="img/fs_logo_comb.png" />
 	</div>
 
 	<div data-role="content">
@@ -16,13 +15,18 @@
 	</div>
 
 	<div data-role="content">
-		<table style='width:100%'><tr><td>
+					<!--
+		<table style='width:100%'><tr>
+
+			<td>
 			<input type="search" name="username" id="userhandle" value="" placeholder="User Name">
 			</td>
-	    <td style='font-size:80%; width:7em'>
+	    <td>
 				<button id="refresh" data-icon="refresh"  data-mini="true" data-theme="a">Refresh</button>
 	 		</td>
 		</tr></table>
+				-->
+			<button id="refresh" data-icon="refresh"  data-mini="true" data-theme="a">Refresh</button>
 	</div>
 
 
@@ -42,10 +46,11 @@
 
 			<div class="ui-block-b" style="width:25%">
 				<button id="remotebut" data-theme="a">Remote</button>
-				</div>
+			</div>
 
 			<div class="ui-block-c" style="width:30%; float: right; margin-right: 30px;">
-				<button id="copybut" data-icon="arrow-d" data-theme="a" >Download</button>
+<!--			<button id="copybut" data-icon="arrow-d" data-theme="a" >Down</button> -->
+				<button id="copybut" data-theme="a" >Download</button>
 			</div>	   
 		</div>
 
@@ -64,10 +69,14 @@
 
 		console.log("Document ready")
 		initCommon();
+		initAjax();
 		initOnLine();
-		//removes the header if we are on a desktop, the header will be on the website already
-		if(!Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)")){
-			$("#header").remove();
+		
+		//add the header if we are on a small device (phone)
+		
+		if(Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)")){
+			$("#header").append('<img id="logo_image" src="img/fs_logo_comb.png" />')
 		}
+		
 	})
 	</script

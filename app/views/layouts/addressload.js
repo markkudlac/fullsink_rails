@@ -16,8 +16,6 @@ function initAjax() {
 
 function initOnLine() {
 	
-	initAjax()
-	
 	maxpollcnt = 30;		// Numer of polls to make to server -1 means none
 	
 	butonIndicator($('#refresh'), true)
@@ -51,33 +49,32 @@ function initOnLine() {
 		
 		timeid = setInterval(pollLookup, 7000)
 */
-		routerLookup($("#userhandle").val());
+//		routerLookup($("#userhandle").val());
+		routerLookup();
 		timeid = setInterval(pollRouterLookup, 10000)
 	}
 
 
-
+/*
 	function serverLookup(xlng, xlat, userhandle) {
-
-//		var pingflg = true;
 
 		alertNoLoc(xlng, xlat)
 
 		$.get('<%= url %>'+"/api/search",{lng: xlng, lat: xlat, userhandle: userhandle},processAddress);
 
 		++pollcount;
-	//		console.log("In managePoll count : " + pollcount)
+
 		if (pollcount >= maxpollcnt) {
 			clearPoll()
 		}
 	}
+*/
 
 
-	function routerLookup(userhandle) {
+	function routerLookup() {
 
-//		var pingflg = true;
-
-		$.get('<%= url %>'+"/api/router",{userhandle: userhandle},processAddress);
+//		$.get('<%= url %>'+"/api/router",{userhandle: userhandle},processAddress);
+		$.get('<%= url %>'+"/api/router",{},processAddress);
 
 		++pollcount;
 			console.log("In routerLookup count : " + pollcount)
@@ -100,7 +97,6 @@ function baseURL(){
 
 function loadAdressandPage() {
 
-	
 	var fullurl = baseURL() + "FlSkHtml/serverid.json"
 		console.log("Send get for serverid : "+fullurl);
 		
@@ -131,7 +127,7 @@ function initOffLine() {
 	$("#refresh").button("disable")
 	$("#remotebut").button("disable")
 	
-	$("#userhandle").attr("disabled",true)
+//	$("#userhandle").attr("disabled",true)
 	
 	loadAdressandPage()
 	
