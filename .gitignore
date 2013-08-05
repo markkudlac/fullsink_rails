@@ -12,4 +12,4 @@ doc/app
 *~
 .DS_Store
 .sass-cache/
-gemfile.lock
+Gemfile.lock

@@ -42,7 +42,7 @@ function initCommon(){
 	$("#refresh").click(refreshLookup)
 	$("#remotebut").click(setRemote)
 	
-	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
+//	$("#userhandle").focus(clearPoll).blur(refreshLookup).keydown(scanrtn)
 	
 	$media.bind("canplay",mediaCanPlay).bind("play",mediaPlay).bind("pause",mediaPause)
 	
@@ -97,14 +97,15 @@ function refreshLookup() {
 }
 
 
-
+/*
 function pollLookup(){
 	serverLookup(lng, lat, $("#userhandle").val());
 }
-
+*/
 
 function pollRouterLookup(){
-	routerLookup($("#userhandle").val());
+//	routerLookup($("#userhandle").val());
+	routerLookup();
 }
 
 
@@ -126,7 +127,7 @@ function appendServer(wsdata,pos){
 	'<div class="ui-block-a" style="width:20%;"><img class="userimage" src="img/ic_menu_invite.png"/></div>'+
 	'<div class="ui-block-b" style="width:75%;"><div>' + wsdata.userhandle + 
 	'</div><div class="songtitle"></div><div class="albumartist"></div></div><div class="ui-block-c" style="width:5%;">'+
-	'<input type="radio" style="margin-top:1.5em" name="playing" /></div></div></a></li>')
+	'<input style="margin-top:1.5em" type="radio" name="playing" /></div></div></a></li>')
 	
 	item.find('img').attr('src',"http://"+wsdata.ipadd+":"+wsdata.porthttpd+"/UserHtml/serverphoto.jpg").error(
 		function(){
