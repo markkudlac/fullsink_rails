@@ -6,7 +6,10 @@
 
 <div data-role="page" id="fullhead" data-theme="b">
 	
-	<div id="header" data-role="header" data-position="fixed" data-theme="a">
+	<div id="headlog" data-role="header" data-position="fixed" data-theme="a">
+<!--
+		<img id="logo_image" src="img/fs_logo_comb.png" />
+-->
 	</div>
 
 	<div data-role="content">
@@ -14,30 +17,32 @@
 		</ul>
 	</div>
 
+<!--
 	<div data-role="content">
-			<button id="refresh" data-icon="refresh"  data-mini="true" data-theme="a">Refresh</button>
+			<button id="refresh" data-icon="refresh" data-theme="a">Refresh</button>
 	</div>
-
+-->
 
 	<div data-role="footer" data-position="fixed" class="ui-bar" data-theme="c">
+		
 		<div class="ui-grid-solo">
 			<div class="ui-block-a">
-				<audio id="media" src="" style="width:95%" preload="auto" controls >
+				<audio id="media" src="" style="width:90%" preload="auto" controls >
 				<p>Your browser does not support the audio element.</p>
 				</audio>
 			</div>
 		</div>
-
+	
 		<div class="ui-grid-b">
-			<div class="ui-block-a" style="width:30%">
+			<div class="ui-block-a" style="width:25%">
 					<button id="playbut" data-icon="arrow-r" data-theme="a">Play</button>
 			</div>
 
-			<div class="ui-block-b" style="width:30%">
+			<div class="ui-block-b" style="width:25%">
 				<button id="remotebut" data-theme="a">Remote</button>
 			</div>
 
-			<div class="ui-block-c" style="width:30%; float: right; margin-right: 30px;">
+			<div class="ui-block-c" style="width:30%; float:right; margin-right:30px;">
 				<button id="copybut" data-theme="a" >Download</button>
 			</div>	   
 		</div>
@@ -56,6 +61,7 @@
 	$(document).ready(function(){
 
 		console.log("Document ready")
+		
 		initCommon();
 		initAjax();
 		initOnLine();
@@ -63,8 +69,10 @@
 		//add the header if we are on a small device (phone)
 		
 		if(Modernizr.mq("(min-device-width: 320px) and (max-device-width: 728px)")){
-			$("#header").append('<img id="logo_image" style="width:215px; height:32px; margin-top:5px; margin-bottom:5px" src="img/fs_logo_comb.png" />')
+			
+			$("#headlog").append('<img id="logo_image" style="width:215px; height:32px; margin:5px" src="img/fs_logo_comb.png" />')
+			
 		}
 		
 	})
-	</script
+	</script>

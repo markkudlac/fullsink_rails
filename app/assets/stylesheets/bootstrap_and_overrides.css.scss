@@ -52,25 +52,19 @@
   color: #77CFEC; 
 }
 
-#fullhead{
-	min-height: 100px;
-}
 
 #div_iframe {
-	position: absolute; 
-	width:300px !important; 
-	height:450px;
+	position: absolute;
+/*	width:310px !important; */
 	border:solid thick #000; 
-	border-bottom-width:50px; 
 	background-color:#111; 
 	padding:18px; 
 	border-radius: 40px; 
-	overflow: hidden;
 }
-#iframe {
-	width:300px; 
+
+#playframe {
+	width:310px !important; 
 	height:450px !important;
-	overflow:hidden; 
 	scrolling:no;
 	border: none;
 }
