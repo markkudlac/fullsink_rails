@@ -1,13 +1,20 @@
-body {
-  height:100%;
-  color: #2f3e46;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 750;
+body{
+	height:100%;
+	color: #2f3e46;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 750;
+	padding-top: 120px;
+}
+.row {
+	margin-left: -40px;
+	margin-right: -50px;
 }
 
-
+.navbar-fixed-top, .navbar-fixed-bottom {
+	position: fixed;
+}
 
 
 p, ol, ul, td {

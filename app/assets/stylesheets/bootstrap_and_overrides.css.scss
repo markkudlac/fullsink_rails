@@ -1,8 +1,8 @@
 @import "bootstrap";
 
-body{
-	background-size:1300px 1050px;
-	background-repeat:no-repeat;
+.row {
+	margin-left: -20px;
+	margin-right: -20px;
 }
 
 #refresh{
@@ -92,7 +92,7 @@ body{
 
 .navbar .nav > li > a {
 	float: none;
-	padding: 40px 5px 0px;
+	padding: 60px 5px 0px;
 	color: #ccc;
 	text-decoration: none;
 	text-align: center;
@@ -100,9 +100,12 @@ body{
 	font-size: 20px;
 }
 
-.nav > li > a:focus{
-	outline: thin dotted #fff;
-	color: #f00;
+
+.navbar .nav > li > a:focus,
+.navbar .nav > li > a:hover {
+  background-color: transparent;
+  color: #77CFEC;
+  text-decoration: none;
 }
 
 .nav > li > a:visited {
