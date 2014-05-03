@@ -18,6 +18,7 @@ gem 'devise', '~> 3.2.4'
 gem 'exception_notification', "2.6.1"
 
 group :production do
+  gem 'rails_12factor'  # This is for Heroku Rails 4
   gem 'pg'
 end
 
@@ -29,7 +30,7 @@ group :development do
 #   gem 'autotest'
 #   gem 'autotest-fsevent'
 #   gem 'autotest-growl'
-   gem 'letter_opener', "~> 1.0.0"    # This is here for mail delivery to browser for testing
+   gem 'letter_opener', "~> 1.0.0"    # This is for mail delivery to browser for testing
 end
 
-ruby "2.0.0"
+ruby '2.0.0'  # This is for Heroku Rails 4
