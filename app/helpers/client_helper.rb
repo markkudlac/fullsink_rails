@@ -5,7 +5,7 @@ module ClientHelper
     if Rails.env.production? then
       url =  "http://www.fullsink.com"
     else 
-      url = "http://192.168.1.132:3000"
+      url = "http://192.168.1.126:3000"
     end
     return url
     

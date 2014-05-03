@@ -1,6 +1,6 @@
 class Resolver < ActiveRecord::Base
-  attr_accessible :device, :devtype, :iprouter, :ipadd, :latitude,
-   :longitude, :porthttpd, :portsock, :userhandle, :netname
+#  attr_accessible :device, :devtype, :iprouter, :ipadd, :latitude,
+#   :longitude, :porthttpd, :portsock, :userhandle, :netname
   
   
   def self.get_byrouter(router)

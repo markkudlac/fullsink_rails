@@ -9,32 +9,44 @@
 	}
 </script>
 
-
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a href="#" class="brand"><img id="logo_image" class="logo" src="img/fs_logo_comb_xhdpi.png"> </a>
-			<div class="nav">
-				<div class="span3 offset1">
-					<ul class="nav pull-right" >
-
-						<li>
-							<%= link_to "contact us", about_path %>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="height:75px">
+	
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" 				data-target="#fullsink-navbar-collapse-1">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		
+		<a class="navbar-brand" href="http://play.google.com/store/apps/details?id=com.fullsink.mp">
+			<img id="logo_image" class="logo" src="img/fs_logo_comb_xhdpi.png">
+		</a>
 	</div>
-</div>
-<div class="row" style="height:700px; background-color: #fff">
-	<div class="span5 offset0"  style="margin-left: 90px;">
-		<div id="div_iframe" >
+	
+	<div class="container">
+	<div class="collapse navbar-collapse navbar-right" id="fullsink-navbar-collapse-1">
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">home</a></li>
+<!--		  <li><a href="#">help</a></li> -->
+	      <li><%= link_to "contact us", about_path %></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+
+<div class="container-fluid">
+<div class="row" style="background-color: #fff">
+	<div class="col-sm-6">
+		<div id="div_iframe">
 			<iframe id="playframe" src="<%= geturl %>/player" seamless ></iframe>
 		</div>
 	</div>
-	<div class="span6 offset1"  style="margin-top: 60px;">
-		<p style="font-family: Euphemia;">
+
+
+	<div class="col-sm-5">
+		<div style="margin-left: 50px; margin-top: 0px">
+		<p style="font-family: Euphemia">
 			<span class="line1"> Get in musical sync <br> with others nearby.</span>
 			<br>
 			</br>
@@ -48,11 +60,14 @@
 			<br>
 			</br>
 
-			<span class="line4"> < Connect this browser to the same wifi <br> network and listen in on the live player. </span>
+			<span class="line4">  Connect this browser to the same wifi <br> network and listen in on the live player. </span>
 			<br>
 			</br>
-			<span class="line5"> Get started now. </span>
-			<img src="img/Google-Play.jpg"  width="110" height="55">
+			<span class="line5"><a href="http://play.google.com/store/apps/details?id=com.fullsink.mp">
+				Get started now.</a></span>
+			<a href="http://play.google.com/store/apps/details?id=com.fullsink.mp"
+			style="margin-left: 20px">
+			<img src="img/Google-Play.jpg"  width="110" height="55"></a>
 			<br>
 			</br>
 			<span class="line6"> No sign-up. No configuration -- instant, seamless. </span>
@@ -60,8 +75,17 @@
 			</br>
 		</p>
 	</div>
-
+	</div>
 </div>
-<div class="row" style="background-color: #77CFEC;">
-	<img class="span12" src="img/Combo_2.gif" style="display: block;  max-width: 100%; padding: 50px"  >
+
+<!-- 
+	<div class="row" style="background-color: #77CFEC;">
+		<img class="span12" src="img/Combo_2.gif" style="display: block;  				max-width: 100%; padding: 50px">
+	</div>
+-->
+	<div class="row" style="background-color: #77CFEC; margin-top: 30px">
+		<div class="col-xs-12">
+			<img  src="img/Combo_2.gif" style="display: block;  				max-width: 100%; padding: 20px">
+		</div>
+	</div>
 </div>

@@ -234,16 +234,6 @@ function currentSocketRange() {
 }
 
 
-/*
-function alertNoLoc(xlng, xlat){
-	
-	if (handlealert && (parseInt(xlng) >= nullloc || 
-					parseInt(xlat) >= nullloc)) {
-		alert("Location unavailable : Enter User Handle for server")
-		handlealert =  false
-	}
-}
-*/
 
 function closeSockets() {
 	

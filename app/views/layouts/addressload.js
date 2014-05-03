@@ -18,57 +18,14 @@ function initOnLine() {
 	
 	maxpollcnt = 30;		// Numer of polls to make to server -1 means none
 	
-	butonIndicator($('#refresh'), true)
+//	butonIndicator($('#refresh'), true)
 
-/*
-	navigator.geolocation.getCurrentPosition(GetLocation, noLocation);
-	
-	function GetLocation(location) {
-		
-		lng = location.coords.longitude
-		lat = location.coords.latitude
 
-//    console.log("Raw lat : " + lat);
-//    console.log("Raw lng : " + lng);
-//    console.log(location.coords.accuracy);
-
-		lat = parseInt(lat * 10000000)
-		lng = parseInt(lng * 10000000)
-
-		console.log("Proc lat : " + lat);
-    console.log("Proc lng : " + lng);
-
-			serverLookup(lng,lat,$("#userhandle").val())
-	}
-	
-	
-	function noLocation(){
-			console.log("No location returned")
-				serverLookup(lng, lat, $("#userhandle").val());
-		}
-		
-		timeid = setInterval(pollLookup, 7000)
-*/
 //		routerLookup($("#userhandle").val());
 		routerLookup();
 		timeid = setInterval(pollRouterLookup, 10000)
 	}
 
-
-/*
-	function serverLookup(xlng, xlat, userhandle) {
-
-		alertNoLoc(xlng, xlat)
-
-		$.get('<%= url %>'+"/api/search",{lng: xlng, lat: xlat, userhandle: userhandle},processAddress);
-
-		++pollcount;
-
-		if (pollcount >= maxpollcnt) {
-			clearPoll()
-		}
-	}
-*/
 
 
 	function routerLookup() {
@@ -124,7 +81,7 @@ function loadAdressandPage() {
 
 function initOffLine() {
 	
-	$("#refresh").button("disable")
+//	$("#refresh").button("disable")
 	$("#remotebut").button("disable")
 	
 //	$("#userhandle").attr("disabled",true)

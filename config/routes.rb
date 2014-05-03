@@ -19,11 +19,17 @@ get "/api/:device/:devtype" => "resolvers#upadd"
 get "api/search" => "resolvers#search"
 get "api/router" => "resolvers#router"
 
-match "/admin", to: "resolvers#index"
-match "/player", to: "client#player"
-match "/about", to: "static#about"
-match "/share", to: "static#share"
-match "/help", to: "static#help"
+get "/admin", to: "resolvers#index"
+get "/player", to: "client#player"
+get "/about", to: "static#about"
+get "/share", to: "static#share"
+get "/help", to: "static#help"
+
+#match "/admin", to: "resolvers#index"
+#match "/player", to: "client#player"
+#match "/about", to: "static#about"
+#match "/share", to: "static#share"
+#match "/help", to: "static#help"
 
 
  root :to => "client#index"

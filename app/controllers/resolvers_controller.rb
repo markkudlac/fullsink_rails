@@ -44,7 +44,7 @@ class ResolversController < ApplicationController
   # POST /resolvers
   # POST /resolvers.json
   def create
-    @resolver = Resolver.new(params[:resolver])
+    @resolver = Resolver.new(resolver_params(params))
 
     respond_to do |format|
       if @resolver.save
@@ -63,7 +63,7 @@ class ResolversController < ApplicationController
     @resolver = Resolver.find(params[:id])
 
     respond_to do |format|
-      if @resolver.update_attributes(params[:resolver])
+      if @resolver.update(resolver_params(params))
         format.html { redirect_to @resolver, notice: 'Resolver was successfully updated.' }
         format.json { head :no_content }
       else
@@ -89,8 +89,13 @@ class ResolversController < ApplicationController
   def upadd
     updated = false
     
-    rec = Resolver.find_or_initialize_by_device_and_devtype(params[:device],params[:devtype])
+ # <4.0   rec = Resolver.find_or_initialize_by_device_and_devtype(params[:device],params[:devtype])
+    rec = Resolver.where(device: params[:device],
+      devtype: params[:devtype]).first_or_initialize
+#    rec = Resolver.where(device: "abc", devtype: "X")
+ #   rec = Resolver.where(device: "abc").first_or_initialize
     
+        
     xparam = params
     xparam.delete :action
     xparam.delete :controller
@@ -102,7 +107,9 @@ class ResolversController < ApplicationController
     end
       
 #    puts "THis is the IP Address : #{request.remote_ip}"
-    if rec.update_attributes(xparam)  
+#
+
+    if rec.update(resolver_params(xparam)) 
       updated = true
     end
     
@@ -122,6 +129,14 @@ class ResolversController < ApplicationController
     rec = Resolver.get_byrouter(iprouter)
  #   puts "Found : #{rec[0]}"
     render :json => rec
+  end
+  
+  def resolver_params(xparams)
+#    puts "PARAMS PASSED : #{xparams}"
+     xparams = xparams.require(:resolver) if xparams[:resolver]
+     
+      xparams.permit(:device, :devtype, :userhandle, :netname,
+          :iprouter, :ipadd, :portsock, :porthttpd)
   end
   
 end
